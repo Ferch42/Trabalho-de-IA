@@ -19,8 +19,8 @@ binaryVectorizer2 = CountVectorizer(analyzer = "word", stop_words = 'english', b
 binaryVector = binaryVectorizer.fit_transform(text for text in corpus)
 binaryVecto2 = binaryVectorizer2.fit_transform(text for text in corpus)
 
-pickle.dump(binaryVector, open("../ObjetosPreProcessados/binaryVector3k.aug", "wb"))
-pickle.dump(binaryVecto2, open("../ObjetosPreProcessados/binaryVectorTotal.aug", "wb"))
+pickle.dump(binaryVector, open("../ObjetosPreProcessados/binaryVector3k.aug", "wb+"))
+pickle.dump(binaryVecto2, open("../ObjetosPreProcessados/binaryVectorTotal.aug", "wb+"))
 
 #pickle.load() recupera o arquivo
 
@@ -31,8 +31,16 @@ tfVectorizer2 = CountVectorizer(analyzer = "word", stop_words = 'english')
 tfVector = tfVectorizer.fit_transform(text for text in corpus)
 tfVector2 = tfVectorizer2.fit_transform(text for text in corpus)
 
-pickle.dump(tfVector, open("../ObjetosPreProcessados/tfVector3k.aug", "wb"))
-pickle.dump(tfVector2, open("../ObjetosPreProcessados/tfVectorTotal.aug", "wb"))
+pickle.dump(tfVector, open("../ObjetosPreProcessados/tfVector3k.aug", "wb+"))
+pickle.dump(tfVector2, open("../ObjetosPreProcessados/tfVectorTotal.aug", "wb+"))
 
 # TF-IDF
 
+tfidfVectorizer = TfidfVectorizer(max_features=3000, stop_words = 'english')
+tfidfVectorizer2 = TfidfVectorizer(stop_words = 'english')
+
+tfidfVector = tfidfVectorizer.fit_transform(text for text in corpus)
+tfidfVector2 = tfidfVectorizer2.fit_transform(text for text in corpus)
+
+pickle.dump(tfidfVector, open("../ObjetosPreProcessados/tfidfVector3k.aug", "wb+"))
+pickle.dump(tfidfVector2, open("../ObjetosPreProcessados/tfidfVectorTotal.aug", "wb+"))

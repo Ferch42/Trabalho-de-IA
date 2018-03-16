@@ -3,6 +3,7 @@ import numpy as np
 from gensim.models import KeyedVectors
 from nltk.corpus import stopwords
 
+
 text_path = '../bbc/'
 folders = os.listdir(text_path) # vai devolver os nomes da pasta
 corpus = []
@@ -23,14 +24,14 @@ def word_averaging(wv, words):
             all_words.add(wv.vocab[word].index)
 
     if not mean:
-        print("FUDEU!!")
+        print("Error!!")
 
     mean = gensim.matutils.unitvec(np.array(mean).mean(axis=0)).astype(np.float32)
     return mean
 
 
 def word_averaging_list(wv, text_list):
-    return np.vstack([word_averaging(wv, review) for review in text_list])
+    return np.vstack([*word_averaging(wv, text_list)])
 
 def w2v_tokenize_text(text):
     tokens = []
@@ -44,7 +45,7 @@ def w2v_tokenize_text(text):
     return tokens
 
 print("abrindo os Word2Vec")
-wv = KeyedVectors.load_word2vec_format("../GoogleNews-vectors-negative300.bin.gz", binary = True)
+wv = gensim.models.KeyedVectors.load_word2vec_format("../GoogleNews-vectors-negative300.bin.gz",binary=True)
 wv.init_sims(replace=True)
 
 print("tokenizando")

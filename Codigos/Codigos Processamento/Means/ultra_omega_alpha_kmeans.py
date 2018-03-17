@@ -1,8 +1,7 @@
 import numpy as np
 import random 
 from sklearn.metrics.pairwise import cosine_similarity
-from math import sqrt
-
+import sys
 
 class ultra_omega_alpha_kmeans:
 
@@ -12,6 +11,7 @@ class ultra_omega_alpha_kmeans:
         self.algoritmo = algoritmo
         self.no_iteracoes = no_iteracoes
         self.distancia = distancia
+        self.clusters = [[] for i in range(self.no_clusters)]
         self.dados = None
         self.centroids = None
 
@@ -32,10 +32,9 @@ class ultra_omega_alpha_kmeans:
         if metodo == "padrao":
             self.__inicializarPadrao()
         elif metodo == "++":
-            self.inicializarPlusPlus()
+            self.__inicializarPlusPlus()
         elif metodo == "x":
-            self.inicializarX()
-
+            self.__inicializarX()
         else:
             raise ValueError("Escolha entre as opcoes disponiveis:'padrao','++','x' ")
 
@@ -61,35 +60,69 @@ class ultra_omega_alpha_kmeans:
     def __inicializarX(self):
         pass
 
-    
+    def __recalcular_centroid_media(self):
+        cluster_contador = 0
+        for cluster in self.clusters:
+            arr_media = np.zeros(self.dados.shape[1])
+            for indice in cluster:
+                arr_media = arr_media + self.dados[indice]
+            arr_media = arr_media/len(cluster)
+            self.centroids[cluster_contador] = arr_media
+            cluster_contador += 1
 
-
-    
- 
-    #Calcula a proxima matriz
-    def __prox_U(self):
+    def __recalcular_centroid_mediana(self):
         pass
     
+    def calcula_distancia(self, distancia_selecionada): #O(n*c)
+        arr_distancias = np.array([[distancia_selecionada(centroid,dado) for centroid in self.centroids] for dado in self.dados])
+        arr_associacoes = np.argmin(arr_distancias,axis=1)
+        for i in range(len(arr_associacoes)):
+            self.clusters[arr_associacoes[i]].append(i)
+       '''
+       cen_in = -1
+       min_distancia = sys.maxsize
+       for id in range(len(dados)):
+           for ic in range(len(self.centroids)):
+               aux_distancia = min_distancia
+               min_distancia = distancia_selecionada(self.centroid[ic],dado)
+               if min_distancia > aux_distancia:
+                   min_distancia = aux_distancia
+               else:
+                   cen_in = ic
+           self.clusters[cen_in].append(id)     
+       '''
     
-
     #Retorna os clusters finais
     #lista de lista de indices - > Matriz esparca
-    def rodaObagulho(self):
-
-        distancias = [[] for i in range(self.no_clusters)] 
+    def executar(self): 
         
-        distancia_euclidiana = lambda x,y: sqrt((x-y)**2)
-        distancia_manhattan = lambda x,y: abs(x-y)        
+        distancia_euclidiana = lambda x,y: np.sqrt((x-y)**2).sum())
+        distancia_manhattan = lambda x,y:  np.abs(x-y).sum()        
         distancia_cosseno = lambda x,y: 1-cosine_similarity([x],[y])[0][0] # [0][0] retorna o numero puro
-        dist = self.distancia
+        dist = self.distancia 
 
         distancia_selecionada = None
-        if (dist == "euclidiana"): 
-
-
-   
-
-        pass
-
-    
-    
+        if dist == "euclidiana": 
+            distancia_selecionada = distancia_euclidiana
+        elif dist == "manhattan":
+            distancia_selecionada = distancia_manhattan
+        elif dist == "cosseno":
+            distancia_selecionada = distancia_cosseno
+        else:
+            raise ValueError("Escolha a distancia entre as seguinte opcoes: 'euclidiana', 'manhattan', 'cosseno'")
+        
+        alg = self.algoritmo
+        
+        if alg == "media":
+            for _ in range(self.no_interacoes)
+                self.calcula_distancia(distancia_selecionada)
+                self.__recalcular_centroid_media()
+        elif alg == "mediana":
+            for _ in range(self.no_interacoes)
+                self.calcula_distancia(distancia_selecionada)
+                self.__recalcular_centroid_mediana()
+        else:
+            raise ValueError("Escolha o algoritmo entre as seguintes opcoes: 'media', 'mediana'")
+        
+        
+        

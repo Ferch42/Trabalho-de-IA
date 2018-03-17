@@ -14,6 +14,7 @@ class ultra_omega_alpha_kmeans:
         self.clusters = [[] for i in range(self.no_clusters)]
         self.dados = None
         self.centroids = None
+        
 
     def incluir(self, dados):
         #Qual a dimensao dos dados ? Linhas = numeros de instancias e Colunas = numeros atributos
@@ -26,7 +27,7 @@ class ultra_omega_alpha_kmeans:
 
         self.dados = dados
 
-    def __inicializar(self):
+    def inicializar(self):
         metodo = self.inicializacao
 
         if metodo == "padrao":
@@ -41,7 +42,7 @@ class ultra_omega_alpha_kmeans:
     def __inicializarPadrao(self):
         indices_prototipos = []
 
-        for i in range(self.no_clusters):       
+        for _ in range(self.no_clusters):       
             #self.dados.shape[0] == numero de linhas da matriz de dados.
             # random.randrange escolhe um numero aleatoria do range especificado.
             indice_aleatorio = random.randrange(self.dados.shape[0])
@@ -75,28 +76,29 @@ class ultra_omega_alpha_kmeans:
     
     def calcula_distancia(self, distancia_selecionada): #O(n*c)
         arr_distancias = np.array([[distancia_selecionada(centroid,dado) for centroid in self.centroids] for dado in self.dados])
+        # axis =1 : realiza a operacao sobre cada elemento em uma linha (para cada linha)
         arr_associacoes = np.argmin(arr_distancias,axis=1)
         for i in range(len(arr_associacoes)):
             self.clusters[arr_associacoes[i]].append(i)
-       '''
-       cen_in = -1
-       min_distancia = sys.maxsize
-       for id in range(len(dados)):
-           for ic in range(len(self.centroids)):
-               aux_distancia = min_distancia
-               min_distancia = distancia_selecionada(self.centroid[ic],dado)
-               if min_distancia > aux_distancia:
-                   min_distancia = aux_distancia
-               else:
-                   cen_in = ic
-           self.clusters[cen_in].append(id)     
-       '''
+        '''
+        cen_in = -1
+        min_distancia = sys.maxsize
+        for id in range(len(dados)):
+            for ic in range(len(self.centroids)):
+                aux_distancia = min_distancia
+                min_distancia = distancia_selecionada(self.centroid[ic],dado)
+                if min_distancia > aux_distancia:
+                    min_distancia = aux_distancia
+                else:
+                    cen_in = ic
+            self.clusters[cen_in].append(id)     
+        '''
     
     #Retorna os clusters finais
     #lista de lista de indices - > Matriz esparca
     def executar(self): 
         
-        distancia_euclidiana = lambda x,y: np.sqrt((x-y)**2).sum())
+        distancia_euclidiana = lambda x,y: np.sqrt(((x-y)**2).sum())
         distancia_manhattan = lambda x,y:  np.abs(x-y).sum()        
         distancia_cosseno = lambda x,y: 1-cosine_similarity([x],[y])[0][0] # [0][0] retorna o numero puro
         dist = self.distancia 
@@ -114,11 +116,11 @@ class ultra_omega_alpha_kmeans:
         alg = self.algoritmo
         
         if alg == "media":
-            for _ in range(self.no_interacoes)
+            for _ in range(self.no_iteracoes):
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_media()
         elif alg == "mediana":
-            for _ in range(self.no_interacoes)
+            for _ in range(self.no_iteracoes):
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_mediana()
         else:

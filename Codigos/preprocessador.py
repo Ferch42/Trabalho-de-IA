@@ -1,6 +1,6 @@
 import os,sys,pickle
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-
+import tokenizer
 
 text_path = '../bbc/'
 folders = os.listdir(text_path) # vai devolver os nomes da pasta
@@ -10,6 +10,7 @@ for folder in folders:
 	for file in os.listdir(text_path+folder):
 		f = open(text_path+folder+'/'+file).read()
 		corpus.append(f) # add os arqvos textos 
+
 
 # # Pre-Processamento Binario 
 binaryVectorizer = CountVectorizer(analyzer = "word", stop_words = 'english', max_features=3000, binary = True)

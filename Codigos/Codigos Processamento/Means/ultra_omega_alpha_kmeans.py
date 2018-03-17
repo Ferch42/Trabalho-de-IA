@@ -11,7 +11,7 @@ class ultra_omega_alpha_kmeans:
         self.algoritmo = algoritmo
         self.no_iteracoes = no_iteracoes
         self.distancia = distancia
-        self.clusters = [[] for i in range(self.no_clusters)]
+        self.clusters = None
         self.dados = None
         self.centroids = None
         
@@ -75,9 +75,10 @@ class ultra_omega_alpha_kmeans:
         pass
     
     def calcula_distancia(self, distancia_selecionada): #O(n*c)
+        self.clusters = [[] for i in range(self.no_clusters)]
         arr_distancias = np.array([[distancia_selecionada(centroid,dado) for centroid in self.centroids] for dado in self.dados])
         # axis =1 : realiza a operacao sobre cada elemento em uma linha (para cada linha)
-        arr_associacoes = np.argmin(arr_distancias,axis=1)
+        arr_associacoes = np.argmin(arr_distancias,axis=1)  
         for i in range(len(arr_associacoes)):
             self.clusters[arr_associacoes[i]].append(i)
         '''

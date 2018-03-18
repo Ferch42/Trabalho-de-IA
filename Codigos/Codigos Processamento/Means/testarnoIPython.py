@@ -5,8 +5,10 @@ from sklearn.manifold import TSNE
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
-dados = pickle.load(open("../../../ObjetosPreProcessados/TFIDF/tfidfVector3k.aug","rb"))
-dados=np.array(dados.todense(),dtype=np.float64)
+dados = pickle.load(open("../../../Objetos/ObjetosPreProcessados/Binario/binaryVector3k.aug","rb"))
+dados=np.array(dados.todense(), dtype = np.float64)
+
+# dados.todense() - > TF, TFIDF, Binario. Usa-se o 'dados.todense' pois 
 
 kmeansao = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=5)
 kmeansao.incluir(dados)
@@ -17,6 +19,7 @@ kmeansao.executar()
 
 tsne=TSNE(n_components=3)
 transformeddados= tsne.fit_transform(dados)
+pickle.dump(transformeddados, open("../../../Objetos/ObjetosProcessados/binaryVector3k.lj", "wb+"))
 
 
 

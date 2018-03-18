@@ -17,7 +17,7 @@ class ultra_omega_alpha_kmeans:
         
 
     def incluir(self, dados):
-        #Qual a dimensao dos dados ? Linhas = numeros de instancias e Colunas = numeros atributos
+        #Qual a dimensao dos dados ? Linhas = numeros de instancias(documents) e Colunas = numeros atributos
        
         if not isinstance(dados, np.ndarray):
             dados = np.array(dados)
@@ -63,22 +63,23 @@ class ultra_omega_alpha_kmeans:
 
     def __recalcular_centroid_media(self):
         cluster_contador = 0
-        for cluster in self.clusters:
+        for cluster in self.clusters: # Aqui 'self.clusters' é uma matriz que possui em linhas os cluster e a coluna de cada linha os INDICES dos dados associados a este cluster
             arr_media = np.zeros(self.dados.shape[1])
             for indice in cluster:
                 arr_media = arr_media + self.dados[indice]
             arr_media = arr_media/len(cluster)
-            self.centroids[cluster_contador] = arr_media
+            self.centroids[cluster_contador] = arr_media # reajustando o centroid de 'cluster' após o calculo da média
             cluster_contador += 1
 
     def __recalcular_centroid_mediana(self):
         pass
     
     def calcula_distancia(self, distancia_selecionada): #O(n*c)
-        self.clusters = [[] for i in range(self.no_clusters)]
+        self.clusters = [[] for i in range(self.no_clusters)] # Aqui armazena-se para cada 'i' em 'no_clusters' uma lista vazia em 'clusters'
+        #Para cada dado em 'dados' calcula-se a distancia deste dado para cada centroid em 'centroids' e armazena em 'arr_distancias'
         arr_distancias = np.array([[distancia_selecionada(centroid,dado) for centroid in self.centroids] for dado in self.dados])
         # axis =1 : realiza a operacao sobre cada elemento em uma linha (para cada linha)
-        arr_associacoes = np.argmin(arr_distancias,axis=1)  
+        arr_associacoes = np.argmin(arr_distancias,axis=1)  # Aqui verifica-se qual dado pertence a qual centroid analisando pela distancia minima entre eles
         for i in range(len(arr_associacoes)):
             self.clusters[arr_associacoes[i]].append(i)
         '''
@@ -102,7 +103,8 @@ class ultra_omega_alpha_kmeans:
         distancia_euclidiana = lambda x,y: np.sqrt(((x-y)**2).sum())
         distancia_manhattan = lambda x,y:  np.abs(x-y).sum()        
         distancia_cosseno = lambda x,y: 1-cosine_similarity([x],[y])[0][0] # [0][0] retorna o numero puro
-        dist = self.distancia 
+        
+        dist = self.distancia #Qual distancia será utilizada pelo algoritmo
 
         distancia_selecionada = None
         if dist == "euclidiana": 
@@ -114,10 +116,10 @@ class ultra_omega_alpha_kmeans:
         else:
             raise ValueError("Escolha a distancia entre as seguinte opcoes: 'euclidiana', 'manhattan', 'cosseno'")
         
-        alg = self.algoritmo
+        alg = self.algoritmo #Vê qual o tipo de calculo será executado -> Media ou Mediana
         
         if alg == "media":
-            for _ in range(self.no_iteracoes):
+            for _ in range(self.no_iteracoes):# no_iteracoes configuração padrão igual a 500
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_media()
         elif alg == "mediana":

@@ -1,10 +1,7 @@
 import os,sys,pickle
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-<<<<<<< HEAD
-from tokenizer import tokenizer,tokenizer_lemmatizer
-=======
 from tokenizer import tokenizer, tokenizer_lemmatizer
->>>>>>> 2e8d85c7ea3e775cae6c7470008804c08fce9acf
+
 
 text_path = '../bbc/'
 folders = os.listdir(text_path) # vai devolver os nomes da pasta

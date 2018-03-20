@@ -1,0 +1,39 @@
+Todos os campos são separados por 'underline' (_)
+
+1-) Corpus:
+	bbc
+	reuters
+
+2-)Tipo do PreProcessamento:
+	Binary
+	Tf
+	Tfidf
+	Word2vec
+
+3-)Tamanho da matriz:
+	3K
+	Total
+
+4-)Tipo:
+	Normal
+	Lemma
+	Token
+	NormalLSA
+	LemmaLSA
+	TokenLSA
+
+5-)Algoritmo de processamento do kmeans:
+	Kmedoids		#Mediana
+	Kmedoidspp
+	Xmedoids
+	Kmeans
+	Kmeanspp
+	Xmeans
+
+6-)Distância:
+	Euclidiana
+	Manhattan
+	Coseno
+
+7-)Número de Clusters:
+	(Ainda a calcular)

@@ -5,12 +5,12 @@ from sklearn.manifold import TSNE
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
-dados = pickle.load(open("../../../Objetos/ObjetosPreProcessados/TFIDF/tfidfVector3kLemmatizer.aug","rb"))
+dados = pickle.load(open("../../../Objetos/ObjetosPreProcessados/Binario/3K/Normal/binaryVector3k.aug","rb"))
 dados=np.array(dados.todense(), dtype = np.float64)
 
 # dados.todense() - > TF, TFIDF, Binario. Usa-se o 'dados.todense' pois 
 
-kmeansao = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=5)
+kmeansao = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=5, algoritmo = 'mediana')
 kmeansao.incluir(dados)
 kmeansao.inicializar()
 kmeansao.centroids
@@ -19,7 +19,8 @@ kmeansao.executar()
 
 tsne=TSNE(n_components=3)
 transformeddados= tsne.fit_transform(dados)
-pickle.dump(transformeddados, open("../../../Objetos/ObjetosProcessados/TFIDF/tfidfVector3kLemmatizer.lj", "wb+"))
+pickle.dump(transformeddados, open("../../../Objetos/ObjetosProcessados/Binario/3K/Normal/bbc_binary_3K_Normal_Mediana_Euclidiana_5.lj", "wb+"))
+pickle.dump(kmeansao, open("../../../Objetos/ObjetosProcessados/Binario/3K/Normal/bbc_binary_3K_Normal_Mediana_Euclidiana_5.lj", "wb+"))
 
 
 

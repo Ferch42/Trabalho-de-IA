@@ -72,7 +72,7 @@ class ultra_omega_alpha_kmeans:
             cluster_contador += 1
 
     def __recalcular_centroid_mediana(self):
-        pass
+        self.centroids = np.array([np.median(np.array([self.dados[i] for i in cluster]),axis=0) for cluster in self.clusters])
     
     def calcula_distancia(self, distancia_selecionada): #O(n*c)
         self.clusters = [[] for i in range(self.no_clusters)] # Aqui armazena-se para cada 'i' em 'no_clusters' uma lista vazia em 'clusters'

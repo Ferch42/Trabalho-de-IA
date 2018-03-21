@@ -4,7 +4,7 @@ Todos os campos são separados por 'underline' (_)
 	bbc
 	reuters
 
-2-)Tipo do PreProcessamento:
+2-)Tipo de Representação:
 	Binary
 	Tf
 	Tfidf
@@ -14,13 +14,13 @@ Todos os campos são separados por 'underline' (_)
 	3K
 	Total
 
-4-)Tipo:
+4-)Tipo de PréProcessamento:
 	Normal
 	Lemma
-	Token
+	Tokenizer
 	NormalLSA
 	LemmaLSA
-	TokenLSA
+	TokenizerLSA
 
 5-)Algoritmo de processamento do kmeans:
 	Kmedoids		#Mediana
@@ -33,7 +33,7 @@ Todos os campos são separados por 'underline' (_)
 6-)Distância:
 	Euclidiana
 	Manhattan
-	Coseno
+	Cosseno
 
 7-)Número de Clusters:
 	(Ainda a calcular)

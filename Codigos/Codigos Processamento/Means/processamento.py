@@ -72,12 +72,15 @@ for tipo_de_tamanho in tipos_de_tamanho:
 
                     kmeans_clusters_coloridos = [[transform_come_xuchu[i] for i in cluster] for cluster in kmeans.clusters]
 
+                    cluster_count=1
                     for kmeans_cluster_colorido in kmeans_clusters_coloridos:
                         x = [v[0] for v in kmeans_cluster_colorido]
                         y = [v[1] for v in kmeans_cluster_colorido]
                         z = [v[2] for v in kmeans_cluster_colorido]
+
                         
-                        ax.scatter(x,y,z,c=np.random.rand(3,1),marker='o')
+                        ax.scatter(x,y,z,c=np.random.rand(4),marker='o',label='Cluster '+str(cluster_count))
+                        cluster_count+=1
 
                     pickle.dump(fig,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".art","wb"))
                         

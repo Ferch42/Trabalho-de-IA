@@ -35,7 +35,7 @@ for tipo_de_tamanho in tipos_de_tamanho:
             print("TSNING...")
             tsne = TSNE(n_components=3)      
             transform_come_xuchu = tsne.fit_transform(come_xuchu)     
-            pickle.dump(transform_come_xuchu,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/"+ "bbc_" + escolha_da_representacao + "_" + tipo_de_tamanho + "_" + tipo_de_tipo + "_LSA" + str(lsa) +".tsne","rb")) 
+            pickle.dump(transform_come_xuchu,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/"+ "bbc_" + escolha_da_representacao + "_" + tipo_de_tamanho + "_" + tipo_de_tipo + "_LSA" + str(lsa) +".tsne","wb")) 
 
             if("LSA" in objeto):
                 lsa = True
@@ -57,15 +57,15 @@ for tipo_de_tamanho in tipos_de_tamanho:
                     come_xuchu_dict["algoritmo"] = algoritmo
                     come_xuchu_dict["distancia"] = distancia                  
                     #Até aqui o objeto está carregado na memoria - OK
-                    comeu_chuxu = "bbc_" + escolha_da_representacao + "_" + tipo_de_tamanho + "_" + tipo_de_tipo + "_LSA" + str(lsa) + "_" + algoritmo + "_" + distancia + "_" + numero_de_cluster
+                    comeu_chuxu = "bbc_" + escolha_da_representacao + "_" + tipo_de_tamanho + "_" + tipo_de_tipo + "_LSA" + str(lsa) + "_" + algoritmo + "_" + distancia + "_" + str(numero_de_cluster)
                     
                     kmeans.incluir(come_xuchu)
                     kmeans.inicializar()
                     kmeans.executar()
 
                     os.mkdir("../../../Objetos/ObjetosProcessados/" + escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu)
-                    pickle.dump(come_xuchu_dict,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".info","rb"))
-                    pickle.dump(kmeans,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".cluster","rb"))
+                    pickle.dump(come_xuchu_dict,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".info","wb"))
+                    pickle.dump(kmeans,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".cluster","wb"))
 
                     fig = plt.figure()
                     ax = plt.axes(projection='3d')
@@ -79,7 +79,7 @@ for tipo_de_tamanho in tipos_de_tamanho:
                         
                         ax.scatter(x,y,z,c=np.random.rand(3,1),marker='o')
 
-                    pickle.dump(fig,open("../../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".art","rb"))
+                    pickle.dump(fig,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".art","wb"))
                         
 
 

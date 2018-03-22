@@ -28,7 +28,8 @@ for tipo_de_tamanho in tipos_de_tamanho:
 
         for objeto in objetos:
             come_xuchu = pickle.load(open(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo + "/" + objeto ,"rb"))
-            come_xuchu=np.array(come_xuchu.todense(), dtype = np.float64)
+            if(not isinstance(come_xuchu,np.ndarray)):
+            	come_xuchu=np.array(come_xuchu.todense(), dtype = np.float64)
             lsa = False
 
             print("Rodando...",escolha_da_representacao,tipo_de_tamanho,tipo_de_tipo,lsa,":D")

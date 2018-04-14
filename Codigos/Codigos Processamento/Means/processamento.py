@@ -35,8 +35,8 @@ for tipo_de_tamanho in tipos_de_tamanho:
             print("Rodando...",escolha_da_representacao,tipo_de_tamanho,tipo_de_tipo,lsa,":D")
             print("TSNING...")
             tsne = TSNE(n_components=3)      
-            transform_come_xuchu = tsne.fit_transform(come_xuchu)     
-            pickle.dump(transform_come_xuchu,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/"+ "bbc_" + escolha_da_representacao + "_" + tipo_de_tamanho + "_" + tipo_de_tipo + "_LSA" + str(lsa) +".tsne","wb")) 
+            #transform_come_xuchu = tsne.fit_transform(come_xuchu)     
+            #pickle.dump(transform_come_xuchu,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/"+ "bbc_" + escolha_da_representacao + "_" + tipo_de_tamanho + "_" + tipo_de_tipo + "_LSA" + str(lsa) +".tsne","wb")) 
 
             if("LSA" in objeto):
                 lsa = True
@@ -67,7 +67,7 @@ for tipo_de_tamanho in tipos_de_tamanho:
                     os.mkdir("../../../Objetos/ObjetosProcessados/" + escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu)
                     pickle.dump(come_xuchu_dict,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".info","wb"))
                     pickle.dump(kmeans,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".cluster","wb"))
-
+                    '''
                     fig = plt.figure()
                     ax = plt.axes(projection='3d')
 
@@ -84,6 +84,6 @@ for tipo_de_tamanho in tipos_de_tamanho:
                         cluster_count+=1
 
                     pickle.dump(fig,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".art","wb"))
-                        
+                    ''' 
 
 

@@ -14,6 +14,7 @@ class ultra_omega_alpha_kmeans:
         self.clusters = None
         self.dados = None
         self.centroids = None
+        self.historia= []
         
 
     def incluir(self, dados):
@@ -21,6 +22,7 @@ class ultra_omega_alpha_kmeans:
        
         if not isinstance(dados, np.ndarray):
             dados = np.array(dados)
+
 
         if len(dados.shape) != 2 :
             raise ValueError("Problemas na dimensao do array")

@@ -11,9 +11,9 @@ class ultra_omega_alpha_kmeans:
         self.algoritmo = algoritmo
         self.no_iteracoes = no_iteracoes
         self.distancia = distancia
-        self.clusters = None
+        self.clusters = []
         self.dados = None
-        self.centroids = None
+        self.centroids = []
         self.historia= []
         
 

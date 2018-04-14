@@ -2,6 +2,7 @@ import numpy as np
 import random 
 from sklearn.metrics.pairwise import cosine_similarity
 import sys
+import progressbar
 
 class ultra_omega_alpha_kmeans:
 
@@ -13,6 +14,7 @@ class ultra_omega_alpha_kmeans:
         self.distancia = distancia
         self.clusters = []
         self.dados = None
+        self.invalid_positions=None
         self.centroids = []
         self.historia= []
         
@@ -78,12 +80,28 @@ class ultra_omega_alpha_kmeans:
     
     def calcula_distancia(self, distancia_selecionada): #O(n*c)
         self.clusters = [[] for i in range(self.no_clusters)] # Aqui armazena-se para cada 'i' em 'no_clusters' uma lista vazia em 'clusters'
+        
+        #enchendo os clusters com pelo menos aquele elemento que lhe é mais proximo
+        self.invalid_positions=[]
+        
+        for c in range(self.no_clusters):
+            distancias_cluster=[enu for enu in enumerate(np.array([distancia_selecionada(self.centroids[c],dado) for dado in self.dados]))]
+            sorted_dist=sorted(distancias_cluster,key= lambda x:x[1])
+            for si in sorted_dist:
+                if(si in self.invalid_positions):
+                    continue
+                else:
+                    self.invalid_positions.append(si[0])
+                    break
+            self.clusters[c].append(self.invalid_positions[-1])
+
         #Para cada dado em 'dados' calcula-se a distancia deste dado para cada centroid em 'centroids' e armazena em 'arr_distancias'
         arr_distancias = np.array([[distancia_selecionada(centroid,dado) for centroid in self.centroids] for dado in self.dados])
         # axis =1 : realiza a operacao sobre cada elemento em uma linha (para cada linha)
         arr_associacoes = np.argmin(arr_distancias,axis=1)  # Aqui verifica-se qual dado pertence a qual centroid analisando pela distancia minima entre eles
         for i in range(len(arr_associacoes)):
-            self.clusters[arr_associacoes[i]].append(i)
+            if(i not in self.invalid_positions):
+                self.clusters[arr_associacoes[i]].append(i)
         '''
         cen_in = -1
         min_distancia = sys.maxsize
@@ -121,7 +139,7 @@ class ultra_omega_alpha_kmeans:
         alg = self.algoritmo #Vê qual o tipo de calculo será executado -> Media ou Mediana
         
         if alg == "media":
-            for momento in range(self.no_iteracoes):# no_iteracoes configuração padrão igual a 500
+            for _ in progressbar.progressbar(range(self.no_iteracoes)):# no_iteracoes configuração padrão igual a 500
                 hsit={}
                 hsit['centroids']=self.centroids.copy()
                 hsit['clusters']=self.clusters.copy()
@@ -130,7 +148,7 @@ class ultra_omega_alpha_kmeans:
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_media()
         elif alg == "mediana":
-            for _ in range(self.no_iteracoes):
+            for _ in progressbar.progressbar(range(self.no_iteracoes)):
                 
                 hsit={}
                 hsit['centroids']=self.centroids

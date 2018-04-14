@@ -121,11 +121,21 @@ class ultra_omega_alpha_kmeans:
         alg = self.algoritmo #Vê qual o tipo de calculo será executado -> Media ou Mediana
         
         if alg == "media":
-            for _ in range(self.no_iteracoes):# no_iteracoes configuração padrão igual a 500
+            for momento in range(self.no_iteracoes):# no_iteracoes configuração padrão igual a 500
+                hsit={}
+                hsit['centroids']=self.centroids
+                hsit['clusters']=self.clusters
+                self.historia.append(hsit)
+
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_media()
         elif alg == "mediana":
             for _ in range(self.no_iteracoes):
+                
+                hsit={}
+                hsit['centroids']=self.centroids
+                hsit['clusters']=self.clusters
+                self.historia.append(hsit)
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_mediana()
         else:

@@ -1,0 +1,6 @@
+import os
+import pickle
+import ultra_omega_alpha_kmeans as kmeans
+
+os.listdir()
+cluster= pickle.load(open(os.listdir()[0],'rb'))

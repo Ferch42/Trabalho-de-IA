@@ -83,9 +83,9 @@ class ultra_omega_alpha_kmeans:
         
         #enchendo os clusters com pelo menos aquele elemento que lhe é mais proximo
         self.invalid_positions=[]
-        
+        distancias_clusters=[np.array([distancia_selecionada(centroid,dado) for dado in self.dados]) for centroid in self.centroids]
         for c in range(self.no_clusters):
-            distancias_cluster=[enu for enu in enumerate(np.array([distancia_selecionada(self.centroids[c],dado) for dado in self.dados]))]
+            distancias_cluster=[enu for enu in enumerate(distancias_clusters[c])]
             sorted_dist=sorted(distancias_cluster,key= lambda x:x[1])
             for si in sorted_dist:
                 if(si in self.invalid_positions):
@@ -96,7 +96,8 @@ class ultra_omega_alpha_kmeans:
             self.clusters[c].append(self.invalid_positions[-1])
 
         #Para cada dado em 'dados' calcula-se a distancia deste dado para cada centroid em 'centroids' e armazena em 'arr_distancias'
-        arr_distancias = np.array([[distancia_selecionada(centroid,dado) for centroid in self.centroids] for dado in self.dados])
+        distancias_clusters=[np.array([x]).T for x in distancias_clusters]
+        arr_distancias = np.concatenate(distancias_clusters,axis=1)
         # axis =1 : realiza a operacao sobre cada elemento em uma linha (para cada linha)
         arr_associacoes = np.argmin(arr_distancias,axis=1)  # Aqui verifica-se qual dado pertence a qual centroid analisando pela distancia minima entre eles
         for i in range(len(arr_associacoes)):

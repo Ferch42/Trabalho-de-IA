@@ -123,8 +123,8 @@ class ultra_omega_alpha_kmeans:
         if alg == "media":
             for momento in range(self.no_iteracoes):# no_iteracoes configuração padrão igual a 500
                 hsit={}
-                hsit['centroids']=self.centroids
-                hsit['clusters']=self.clusters
+                hsit['centroids']=self.centroids.copy()
+                hsit['clusters']=self.clusters.copy()
                 self.historia.append(hsit)
 
                 self.calcula_distancia(distancia_selecionada)

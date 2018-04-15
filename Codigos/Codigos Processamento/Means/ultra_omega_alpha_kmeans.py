@@ -17,6 +17,9 @@ class ultra_omega_alpha_kmeans:
         self.invalid_positions=None
         self.centroids = []
         self.historia= []
+        self.distancia_total=0
+        self.distancia_total_ant=-1
+        self.distancia_total_ant_ant=-2
         
 
     def incluir(self, dados):
@@ -98,6 +101,7 @@ class ultra_omega_alpha_kmeans:
         #Para cada dado em 'dados' calcula-se a distancia deste dado para cada centroid em 'centroids' e armazena em 'arr_distancias'
         distancias_clusters=[np.array([x]).T for x in distancias_clusters]
         arr_distancias = np.concatenate(distancias_clusters,axis=1)
+        self.distancia_total=arr_distancias.sum()
         # axis =1 : realiza a operacao sobre cada elemento em uma linha (para cada linha)
         arr_associacoes = np.argmin(arr_distancias,axis=1)  # Aqui verifica-se qual dado pertence a qual centroid analisando pela distancia minima entre eles
         for i in range(len(arr_associacoes)):
@@ -141,22 +145,33 @@ class ultra_omega_alpha_kmeans:
         
         if alg == "media":
             for _ in progressbar.progressbar(range(self.no_iteracoes)):# no_iteracoes configuração padrão igual a 500
-                hsit={}
-                hsit['centroids']=self.centroids.copy()
-                hsit['clusters']=self.clusters.copy()
-                self.historia.append(hsit)
-
+                #hsit={}
+                #hsit['centroids']=self.centroids.copy()
+                #hsit['clusters']=self.clusters.copy()
+                #self.historia.append(hsit)
+                if(self.distancia_total==self.distancia_total_ant or self.distancia_total==self.distancia_total_ant_ant):
+                    break
+                
+                self.distancia_total_ant_ant=self.distancia_total_ant
+                self.distancia_total_ant=self.distancia_total
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_media()
+                
         elif alg == "mediana":
             for _ in progressbar.progressbar(range(self.no_iteracoes)):
                 
-                hsit={}
-                hsit['centroids']=self.centroids
-                hsit['clusters']=self.clusters
-                self.historia.append(hsit)
+                #hsit={}
+                #hsit['centroids']=self.centroids
+                #hsit['clusters']=self.clusters
+                #self.historia.append(hsit)
+                if(self.distancia_total==self.distancia_total_ant or self.distancia_total==self.distancia_total_ant_ant):
+                    break
+                
+                self.distancia_total_ant_ant=self.distancia_total_ant
+                self.distancia_total_ant=self.distancia_total
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_mediana()
+                
         else:
             raise ValueError("Escolha o algoritmo entre as seguintes opcoes: 'media', 'mediana'")
         

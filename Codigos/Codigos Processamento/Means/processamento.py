@@ -64,9 +64,9 @@ for tipo_de_tamanho in tipos_de_tamanho:
                     kmeans.inicializar()
                     kmeans.executar()
 
-                    os.mkdir("../../../Objetos/ObjetosProcessados/" + escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu)
-                    pickle.dump(come_xuchu_dict,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".info","wb"))
-                    pickle.dump(kmeans,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".cluster","wb"))
+                    #os.mkdir("../../../Objetos/ObjetosProcessados/" + escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu)
+                    #pickle.dump(come_xuchu_dict,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".info","wb"))
+                    #pickle.dump(kmeans,open("../../../Objetos/ObjetosProcessados/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".cluster","wb"))
                     '''
                     fig = plt.figure()
                     ax = plt.axes(projection='3d')

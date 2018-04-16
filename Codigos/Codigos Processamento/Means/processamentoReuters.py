@@ -46,16 +46,17 @@ for tipo_de_tamanho in tipos_de_tamanho:
             for algoritmo in algoritmos_do_kmenzao:
                 
                 for distancia in distancias_do_kmenzao:
-                	kmeans = None
-                	if(tipo_de_tamanho == "Total"):
-                		kmeans = ultra_omega_alpha_kmeans_multicore.ultra_omega_alpha_kmeans(no_clusters = numero_de_cluster, algoritmo = algoritmo, distancia = distancia)
-                	else:
-						kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters = numero_de_cluster, algoritmo = algoritmo, distancia = distancia)
-                    
+                    kmeans = None
+
+                    if(tipo_de_tamanho == "Total"):
+                        kmeans = ultra_omega_alpha_kmeans_multicore.ultra_omega_alpha_kmeans(no_clusters = numero_de_cluster, algoritmo = algoritmo, distancia = distancia)
+                    else:
+                        kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters = numero_de_cluster, algoritmo = algoritmo, distancia = distancia)
+                	
                     print("algoritmando",algoritmo,distancia,numero_de_cluster)
                     #Dicionario q guardará todas as infos desse objeto
                     come_xuchu_dict = {}
-                    come_xuchu_dict["corpus"] = "bbc"
+                    come_xuchu_dict["corpus"] = "reuters"
                     come_xuchu_dict["representacao"] = escolha_da_representacao
                     come_xuchu_dict["tamanho"] = tipo_de_tamanho
                     come_xuchu_dict["processamento"] = tipo_de_tipo
@@ -64,15 +65,15 @@ for tipo_de_tamanho in tipos_de_tamanho:
                     come_xuchu_dict["algoritmo"] = algoritmo
                     come_xuchu_dict["distancia"] = distancia                  
                     #Até aqui o objeto está carregado na memoria - OK
-                    comeu_chuxu = "bbc_" + escolha_da_representacao + "_" + tipo_de_tamanho + "_" + tipo_de_tipo + "_LSA" + str(lsa) + "_" + algoritmo + "_" + distancia + "_" + str(numero_de_cluster)
+                    comeu_chuxu = "reuters" + escolha_da_representacao + "_" + tipo_de_tamanho + "_" + tipo_de_tipo + "_LSA" + str(lsa) + "_" + algoritmo + "_" + distancia + "_" + str(numero_de_cluster)
                     
                     kmeans.incluir(come_xuchu)
                     kmeans.inicializar()
                     kmeans.executar()
 
                     os.mkdir("../../../Objetos/ObjetosProcessados Reuters/" + escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu)
-                    pickle.dump(come_xuchu_dict,open("../../../Objetos/ObjetosProcessados Reuters/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".info","wb"))
-                    pickle.dump(kmeans,open("../../../Objetos/ObjetosProcessados Reuters/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".cluster","wb"))
+                    pickle.dump(come_xuchu_dict,open("../../../Objetos/ObjetosProcessados Reuters/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".info","wb+"))
+                    pickle.dump(kmeans,open("../../../Objetos/ObjetosProcessados Reuters/"+escolha_da_representacao +"/"+tipo_de_tamanho +"/"+ tipo_de_tipo + "/" + comeu_chuxu +"/"+ comeu_chuxu+".cluster","wb+"))
                     '''
                     fig = plt.figure()
                     ax = plt.axes(projection='3d')

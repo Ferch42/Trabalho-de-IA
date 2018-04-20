@@ -109,3 +109,8 @@ def calcularSilhueta(kmeans):
 
 def SilhuetaGrupo(conj_silhueta_dados):
     return conj_silhueta_dados.sum()/len(conj_silhueta_dados)
+
+
+def SilhuetaTotal(conj_silhueta_grupo):
+    
+    return conj_silhueta_grupo.sum()/len(conj_silhueta_grupo) 

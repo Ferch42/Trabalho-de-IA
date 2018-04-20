@@ -64,21 +64,7 @@ class ultra_omega_alpha_kmeans:
     
     
     def __inicializarPlusPlus(self):
-        self.__inicializarPadrao() #Selecionando centroids aleatoriamente
-        
-        novos_centroids = []
-        for centroid in self.centroids:
-            list_prob,list_coord =  self.__func_prob(centroid)
-        
-            prob = np.random.uniform(0,1)
-            for p,c in zip(list_prob,list_coord):
-                prob = prob - p
-                if prob <= 0:
-                    novos_centroids.append(c)
-                    break
-
-        self.centroids = novos_centroids
-        
+        pass
     def __inicializarX(self):
         pass
 
@@ -95,22 +81,6 @@ class ultra_omega_alpha_kmeans:
     def __recalcular_centroid_mediana(self):
         self.centroids = np.array([np.median(np.array([self.dados[i] for i in cluster]),axis=0) for cluster in self.clusters])
     
-    def __func_prob(self, c1):
-        distancia_euclidiana = lambda x,y: np.sqrt(((x-y)**2).sum())
-        list_prob = []
-        list_coordenadas = []
-        sigma_total = 0
-
-        for dado in self.dados:
-            d = distancia_euclidiana(dado,c1)**2
-            list_prob.append(d)
-            list_coordenadas.append(dado)
-            sigma_total = sigma_total + d
-
-        list_prob = np.array(list_prob)/sigma_total
-        
-        return (list_prob,list_coordenadas)
-        
     def calcula_distancia(self, distancia_selecionada): #O(n*c)
         self.clusters = [[] for i in range(self.no_clusters)] # Aqui armazena-se para cada 'i' em 'no_clusters' uma lista vazia em 'clusters'
         

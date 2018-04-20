@@ -1,5 +1,4 @@
 import os
-import ultra_omega_alpha_kmeans
 import pickle
 	
 def recupera_dados(dicinfo):

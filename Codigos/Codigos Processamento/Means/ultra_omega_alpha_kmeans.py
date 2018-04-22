@@ -1,6 +1,6 @@
 import numpy as np
 import random 
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import euclidean_distances, cosine_distances, manhattan_distances
 import sys
 import progressbar
 
@@ -97,6 +97,7 @@ class ultra_omega_alpha_kmeans:
     
     def __func_prob(self, c1):
         distancia_euclidiana = lambda x,y: np.sqrt(((x-y)**2).sum())
+
         list_prob = []
         list_coordenadas = []
         sigma_total = 0
@@ -116,24 +117,26 @@ class ultra_omega_alpha_kmeans:
         
         #enchendo os clusters com pelo menos aquele elemento que lhe é mais proximo
         self.invalid_positions=[]
-        distancias_clusters=[np.array([distancia_selecionada(centroid,dado) for dado in self.dados]) for centroid in self.centroids]
+        distancias_clusters = distancia_selecionada(self.centroids, self.dados) #numero de centroids = número de linhas ---- numero coluna = numero de dados
+
         for c in range(self.no_clusters):
             distancias_cluster=[enu for enu in enumerate(distancias_clusters[c])]
             sorted_dist=sorted(distancias_cluster,key= lambda x:x[1])
             for si in sorted_dist:
-                if(si in self.invalid_positions):
+                if(si in self.invalid_positions): #verifica se algum selecionou o dado em avaliação
                     continue
                 else:
                     self.invalid_positions.append(si[0])
                     break
-            self.clusters[c].append(self.invalid_positions[-1])
+            self.clusters[c].append(self.invalid_positions[-1]) #dado pertencendo a um cluster, então ele vai para invalid_positions
 
         #Para cada dado em 'dados' calcula-se a distancia deste dado para cada centroid em 'centroids' e armazena em 'arr_distancias'
-        distancias_clusters=[np.array([x]).T for x in distancias_clusters]
-        arr_distancias = np.concatenate(distancias_clusters,axis=1)
-        self.distancia_total=arr_distancias.sum()
+        #distancias_clusters=[np.array([x]).T for x in distancias_clusters]
+        # arr_distancias = np.concatenate(distancias_clusters,axis=1)
+
+        self.distancia_total = distancias_clusters.sum()
         # axis =1 : realiza a operacao sobre cada elemento em uma linha (para cada linha)
-        arr_associacoes = np.argmin(arr_distancias,axis=1)  # Aqui verifica-se qual dado pertence a qual centroid analisando pela distancia minima entre eles
+        arr_associacoes = np.argmin(distancias_clusters,axis=0)  # Aqui verifica-se qual dado pertence a qual centroid analisando pela distancia minima entre eles
         for i in range(len(arr_associacoes)):
             if(i not in self.invalid_positions):
                 self.clusters[arr_associacoes[i]].append(i)
@@ -155,19 +158,19 @@ class ultra_omega_alpha_kmeans:
     #lista de lista de indices - > Matriz esparca
     def executar(self): 
         
-        distancia_euclidiana = lambda x,y: np.sqrt(((x-y)**2).sum())
-        distancia_manhattan = lambda x,y:  np.abs(x-y).sum()        
-        distancia_cosseno = lambda x,y: 1-cosine_similarity([x],[y])[0][0] # [0][0] retorna o numero puro
+        #distancia_euclidiana = lambda x,y: np.sqrt(((x-y)**2).sum())
+        #distancia_manhattan = lambda x,y:  np.abs(x-y).sum()        
+        #distancia_cosseno = lambda x,y: 1-cosine_similarity([x],[y])[0][0] # [0][0] retorna o numero puro
         
         dist = self.distancia #Qual distancia será utilizada pelo algoritmo
 
         distancia_selecionada = None
         if dist == "euclidiana": 
-            distancia_selecionada = distancia_euclidiana
+            distancia_selecionada = euclidean_distances
         elif dist == "manhattan":
-            distancia_selecionada = distancia_manhattan
+            distancia_selecionada = manhattan_distances
         elif dist == "cosseno":
-            distancia_selecionada = distancia_cosseno
+            distancia_selecionada = cosine_distances
         else:
             raise ValueError("Escolha a distancia entre as seguinte opcoes: 'euclidiana', 'manhattan', 'cosseno'")
         

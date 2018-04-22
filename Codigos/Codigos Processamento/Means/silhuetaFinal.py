@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import pickle
 import sys
+from joblib import Parallel, delayed
 #from dadosdor import recupera_dados 
 
 
@@ -52,7 +53,7 @@ def criarConjunto(clusters, dados):
 #devolve uma lista de organizada pelo numero do cluster
 def distanciaMediaExtra(conj_cluster_dados): #silhueta para dados extracluster    
 
-    resultado = [[] for _ in range(len(conj_cluster_dados))]
+    resultado = []
     
     hash_dist = {} 
     #STRUCT ---> key (cluster1_indiceDado1_cluster2_indiceDado2): value = distancia(dado1,dado2) <---
@@ -127,7 +128,7 @@ def distanciaMediaIntra(conj_dados): #silhueta para dados
 
 def SilhuetaDado(conj_cluster_dados):
 
-    list_conj_a = [distanciaMediaIntra(conj_cluster_dados[x]) for x in range(len(conj_cluster_dados))] # passando o conjunto de dados referente ao cluster em avaliação
+    list_conj_a = Parallel(n_jobs=-1,  backend="threading") (distanciaMediaIntra(conj_cluster_dados[x]) for x in range(len(conj_cluster_dados))) # passando o conjunto de dados referente ao cluster em avaliação
     
     list_conj_b = distanciaMediaExtra(conj_cluster_dados)
     

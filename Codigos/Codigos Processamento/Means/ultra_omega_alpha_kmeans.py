@@ -4,7 +4,7 @@ from sklearn.metrics.pairwise import euclidean_distances, cosine_distances, manh
 import sys
 import progressbar
 import ultra_omega_alpha_kmeans2
-from silhuetaDInamico import calcular_silhueta_um_grupo
+from silhuetaDInamico import calcular_silhueta_um_grupo,calcularSilhueta
 
 class ultra_omega_alpha_kmeans:
 

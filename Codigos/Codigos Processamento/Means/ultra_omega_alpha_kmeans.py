@@ -4,6 +4,7 @@ from sklearn.metrics.pairwise import euclidean_distances, cosine_distances, manh
 import sys
 import progressbar
 import ultra_omega_alpha_kmeans2
+from silhuetaDInamico import calcular_silhueta_um_grupo
 
 class ultra_omega_alpha_kmeans:
 
@@ -257,15 +258,17 @@ class ultra_omega_alpha_kmeans:
 
             novo_cluster_com_dados = []
             k_antes = k_atual
-            
-            for number_cluster, cluster in enumerate(self.clusters_com_dados) :
+            silhueta_geral = calcular_silhueta_um_grupo(kmeans) #Calculando o silhueta para todos os grupos.
+            for number_cluster, cluster in enumerate(self.clusters_com_dados):
                 
                 if(k_atual + 1 <= k_max):
-                    check, novos_grupos = self.tentar_dividir(cluster)
+
+                    check, novos_grupos = self.tentar_dividir(cluster, silhueta_geral[number_cluster])
+
                     if(check is True):
                         k_atual = 1 + k_atual
                         self.clusters_com_dados[number_cluster] = None
-                        novo_cluster_com_dados.append([dados for dados in novos_grupos])
+                        novo_cluster_com_dados.append([dados for dados in novos_grupos])# append nos novos clusters que passaram a existir
                     else:
                         self.clusters_com_dados[number_cluster] = None
                         novo_cluster_com_dados.append(cluster)
@@ -273,18 +276,19 @@ class ultra_omega_alpha_kmeans:
                     break
 
             self.clusters_com_dados = novo_cluster_com_dados
-            
-            if(k_antes == k_atual):                
+            kmeans.no_clusters = k_atual
+            kmeans.clusters = [cluster[1] for cluster in self.clusters_com_dados]
+            if(k_antes == k_atual): 
                 break                        
 
                  
-                
-        return (k_atual,self.clusters_com_dados)
+        self.no_clusters = k_atual
+        self.clusters = [cluster[1] for cluster in self.clusters_com_dados]
 
 
-    def tentar_dividir(self,dados_do_cluster):
+
+    def tentar_dividir(self,dados_do_cluster, silhueta_win):      
         
-        silhueta_win = calcular_silhueta_um_grupo(dados_do_cluster[0])
 
         kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans()
         kmeans_temp.incluir(dados_do_cluster[0])
@@ -296,7 +300,7 @@ class ultra_omega_alpha_kmeans:
         um_cluster_com_dados = self.criarConjunto(kmeans_temp.clusters,kmeans_temp.dados)
         
 
-        silhueta_do_grupo = calcular_silhueta_um_grupo(um_cluster_com_dados)
+        silhueta_do_grupo = calcularSilhueta(um_cluster_com_dados)
 
         cluster_com_indice = [[dados_do_cluster[1][i] for i in cluster] for cluster in kmeans_temp.clusters]
                     
@@ -306,6 +310,8 @@ class ultra_omega_alpha_kmeans:
             return (True,meu_zip)
         else:
             return (False,dados_do_cluster)
+
+
 
    
 

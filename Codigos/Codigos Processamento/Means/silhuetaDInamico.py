@@ -7,30 +7,37 @@
 import numpy as np
 import ultra_omega_alpha_kmeans
 import math
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import pickle
 from sklearn.metrics import euclidean_distances
 import sys
 from joblib import Parallel, delayed
 #from dadosdor import recupera_dados 
-
-
 #distancia_euclidiana = lambda x,y: np.sqrt(((x-y)**2).sum())
+
 
 
 # In[ ]:
 
+def calcular_silhueta_um_grupo(kmeans):
+    silhueta_dados = []
 
-def calcular_silhueta_um_grupo(dados_do_cluster):
+    my_cluster =  kmeans.clusters #coordenadas para os dados 
+    my_dados = kmeans.dados # matriz de dados - Para acessar um dado devemos consultar a cordenada em my_cluters (lista de listas)
+
+    conj_daora = criarConjunto(my_cluster, my_dados)
     
-    silhueta_dados = SilhuetaDado(dados_do_cluster) 
+    #Limpando memória
+    my_cluster = None
+    my_dados = None
+
+    silhueta_dados = SilhuetaDado(conj_daora) 
     
     silhueta_grupos = [SilhuetaGrupo(grupo) for grupo in silhueta_dados]
-    
+
+    silhueta_grupos = np.array(silhueta_grupos)
+
     return silhueta_grupos
-    
-    
+
 
 
 # In[7]:

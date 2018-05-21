@@ -6,6 +6,7 @@ import pickle
 import os
 import pathlib
 
+
 def plotar_silhueta(silhueta_dados):
     fig = plt.figure()
     ax = fig.add_subplot(111)
@@ -16,7 +17,8 @@ def plotar_silhueta(silhueta_dados):
         for dado in cluster:
             flat_silhueta_dados.append(dado)
     Y = np.arange(0, len(flat_silhueta_dados))
-    ax.fill_betweenx(Y, flat_silhueta_dados)
+    cores = plt.spectral(3/len(silhueta_dados))
+    ax.fill_betweenx(Y, flat_silhueta_dados, facecolor = cores)
     plt.show()
 
 if __name__ == "__main__":

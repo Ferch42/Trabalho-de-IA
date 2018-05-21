@@ -1,4 +1,4 @@
-import silhuetaFinal
+import silhuetaDInamico
 import sys, os
 import pathlib
 import ultra_omega_alpha_kmeans
@@ -19,22 +19,26 @@ if __name__ == '__main__':
     if escolha_da_representacao not in tipos_de_representacao:
         raise ValueError("Voce nao digitou uma entrada valida")
 
-    tipos_de_tamanho = os.listdir(path_arquivos + escolha_da_representacao)
+    #tipos_de_tamanho = os.listdir(path_arquivos + escolha_da_representacao)
+    tipos_de_tamanho = ["3k"]
 
-    algoritmos_do_kmenzao = ["media", "mediana"]
+    algoritmos_do_kmenzao = ["media"]
     distancias_do_kmenzao = ["euclidiana", "manhattan", "cosseno"]
 
-    for tipo_de_tamanho in tipos_de_tamanho:
-        tipos_de_tipo = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho)
+    resposta = []
 
-        for tipo_de_tipo in tipos_de_tipo:
+
+    for tipo_de_tamanho in tipos_de_tamanho:
+        #tipos_de_tipo = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho)
+        tipos_de_tipo = ["Normal","Lemma"]
+        for tipo_de_tipo in tipos_de_tipo: #Normal ou Lema
             objetos = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo)
 
             for objeto in objetos:
                 with open(
                         path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo + "/" + objeto,
                         "rb") as f1:
-                    come_xuchu = pickle.load(f1)
+                    come_xuchu = pickle.load(f1) #Abre Representa;áo
 
                 if (not isinstance(come_xuchu, np.ndarray)):
                     come_xuchu = np.array(come_xuchu.todense(), dtype=np.float64)
@@ -70,9 +74,11 @@ if __name__ == '__main__':
                             lsa) + "_" + algoritmo + "_" + distancia + "_" + str(numero_de_cluster)
                         
                         best_score = -1000
-                        
-                        for cont in range(15):
-                            print("(~‾_‾)~  que shit.." ,cont)
+                        silhueta_acumulador = 0
+
+                        print("(~‾_‾)~  que shit..")
+
+                        for cont in range(30):
 
                             kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=numero_de_cluster,
                                                                                     algoritmo=algoritmo,
@@ -82,35 +88,16 @@ if __name__ == '__main__':
                             kmeans.inicializar()
                             kmeans.executar()
                             
-                            print("silhueta rodante")
-                            silhueta_final = silhuetaFinal.calcularSilhueta(kmeans)
+                            silhueta_final = silhuetaDInamico.calcularSilhueta(kmeans)
 
-                            if silhueta_final > best_score:
-                                print(" (/•-•)/ q p0rr4 3 3ss4?!")
-                            
-                                best_score = silhueta_final
-                                print("A melhor silhueta foi:" + str(best_score) + " (°o°)")
+                            silhueta_acumulador = silhueta_acumulador + silhueta_final
 
-                                kmeans.dados = None
-                            
-                                filepath = os.path.realpath(
-                                    "../../../Objetos/ObjetosProcessadosPlusPlus/" + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo + "/" + comeu_chuxu)
-                                
-                                abspath = pathlib.Path(filepath).absolute() #lol
+                        silhueta_acumulador = silhueta_acumulador/30
 
-                                os.makedirs(abspath, exist_ok=True)
+                        resposta.append((silhueta_acumulador, come_xuchu_dict))
 
-                                write_info_path = filepath + "/" + comeu_chuxu + ".info"
+    pickle.dump(resposta,open(escolha_da_representacao + numero_de_cluster + ".jojo", "wb"))                    
 
-                                abs_write_info_path = pathlib.Path(write_info_path).absolute()
 
-                                with open(abs_write_info_path, "wb") as f2:
-                                    pickle.dump(come_xuchu_dict, f2)
-                                    
-                                write_cluster_path = filepath + "/" + comeu_chuxu + ".cluster"
 
-                                abs_write_cluster_path = pathlib.Path(write_cluster_path).absolute()
-
-                                with open(abs_write_cluster_path, "wb") as f3:
-                                    pickle.dump(kmeans, f3)
 

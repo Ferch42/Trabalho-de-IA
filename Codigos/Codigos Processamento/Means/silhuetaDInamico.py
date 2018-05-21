@@ -5,7 +5,6 @@
 
 
 import numpy as np
-import ultra_omega_alpha_kmeans
 import math
 import pickle
 from sklearn.metrics import euclidean_distances

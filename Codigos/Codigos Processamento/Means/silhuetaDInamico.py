@@ -174,10 +174,16 @@ def distanciaMediaIntra(conj_dados): #silhueta para dados
 
     distancia_geral = euclidean_distances(conj_dados, conj_dados)
 
+
     #cada linha é a distancia do ponto para todo resto
     #media d alinha
-
-    return np.array([x.sum()/(len(x)-1) for x in distancia_geral]) 
+    respp=[]
+    for x in distancia_geral:
+        if(len(x)==1):
+            raise ValueError("Can't compute Intra Distance")
+        else:
+            respp.append(x.sum()/(len(x)-1))
+    return np.array(respp) 
 
 
 

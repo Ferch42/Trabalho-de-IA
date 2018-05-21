@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[6]:
-
-
 import numpy as np
 import math
 import pickle
@@ -41,6 +35,20 @@ def calcular_silhueta_um_grupo(kmeans):
 
 # In[7]:
 
+def calcularSilhuetaDados(kmeans):
+    silhueta_dados = []
+
+    my_cluster =  kmeans.clusters #coordenadas para os dados 
+    my_dados = kmeans.dados # matriz de dados - Para acessar um dado devemos consultar a cordenada em my_cluters (lista de listas)
+
+    conj_daora = criarConjunto(my_cluster, my_dados)
+    
+    #Limpando memória
+    my_cluster = None
+    my_dados = None
+
+    silhueta_dados = SilhuetaDado(conj_daora)
+    return silhueta_dados
 
 def calcularSilhueta(kmeans):
 

@@ -14,7 +14,8 @@ import matplotlib.pyplot as plt
 import progressbar
 from sklearn.cluster import KMeans
 import silhuetaDInamico
-
+import time
+from joblib import Parallel, delayed
 
 # In[ ]:
 
@@ -34,6 +35,24 @@ def clusterizacao(som):
 
 # In[2]:
 
+def kmeanza(som,come_xuchu,n):
+    silhueta_acumulador=0
+    for _ in range(5):
+        flaag=True
+        while(flaag):
+            try:
+                kmeans=KMeans(n_clusters=n)
+                som.cluster(kmeans)
+                kmeanz = Kmeanz()
+                kmeanz.clusters= clusterizacao(som)
+                kmeanz.dados= come_xuchu
+                silhueta_final = silhuetaDInamico.calcularSilhueta(kmeanz)
+                silhueta_acumulador = silhueta_acumulador + silhueta_final
+                flaag=False
+            except:
+                pass
+
+    return  silhueta_acumulador/5
 
 
 if __name__ == '__main__':
@@ -41,7 +60,7 @@ if __name__ == '__main__':
     # Retorna tudo oque tem dentro de ObjetosPreProcessados -> só há pastas
     tipos_de_representacao = os.listdir(path_arquivos)
     escolha_da_representacao = sys.argv[1]  # entrada via prompt (string)
-    
+    t1=time.time()
 
     if escolha_da_representacao not in tipos_de_representacao:
         raise ValueError("Voce nao digitou uma entrada valida")
@@ -79,51 +98,49 @@ if __name__ == '__main__':
                 if ("LSA" in objeto):
                     lsa = True
 
-                print("Somando...", escolha_da_representacao, tipo_de_tamanho, tipo_de_tipo, lsa, ":D") 
-                for grid_size in [7,10,14]:
-                    for learning_rate in [0.1,0.4,0.7]:
-                        for neighboorhood_radius  in [int(grid_size/2),2,1]:
-                            for r_cooling in ['linear','exponential']:
-                                for a_cooling in ['linear','exponential']:
-                                    print("grid: "+str(grid_size)+"; learning_rate: "+str(learning_rate)+"; neighboorhood_radius: "+str(neighboorhood_radius)+"; r_cooling: "+r_cooling+"; a_cooling: "+a_cooling)
-                                    som = somoclu.Somoclu(grid_size, grid_size,verbose =2)
-                                    som.train(data=come_xuchu,epochs=1000,radius0=neighboorhood_radius,radiusN=1,radiuscooling=r_cooling,scale0=learning_rate,scaleN=0.01,scalecooling=a_cooling)
-                                    
-                                    for n in range(2,9):
-                                        print("kmeans: n = "+str(n))
-                                        silhueta_acumulador=0
-                                        for _ in range(30):
-                                            flaag=True
-                                            while(flaag):
-                                                try:
-                                                    kmeans=KMeans(n_clusters=n)
-                                                    som.cluster(kmeans)
-                                                    kmeanz = Kmeanz()
-                                                    kmeanz.clusters= clusterizacao(som)
-                                                    kmeanz.dados= come_xuchu
-                                                    silhueta_final = silhuetaDInamico.calcularSilhueta(kmeanz)
-                                                    silhueta_acumulador = silhueta_acumulador + silhueta_final
-                                                    flaag=False
-                                                except:
-                                                    print("error founddd")
+                print("Somando...", escolha_da_representacao, tipo_de_tamanho, tipo_de_tipo, lsa, ":D")
+                for neighboorhood in ['gaussian','bubble']: 
+                    for grid_size in [7,10,14]:
+                        for learning_rate in [0.1,0.4,0.7]:
+                            for neighboorhood_radius  in [int(grid_size/2),2,1]:
+                                for r_cooling in ['linear','exponential']:
+                                    if(neighboorhood_radius==1 and r_cooling=='exponential'):
+                                        continue
+                                    for a_cooling in ['linear','exponential']:
                                         
-                                        silhueta_acumulador = silhueta_acumulador/30
+                                        Kmeans_clustering=np.zeros(6)
+
+                                        print("grid: "+str(grid_size)+"; learning_rate: "+str(learning_rate)+"; neighboorhood_radius: "+str(neighboorhood_radius)+"; r_cooling: "+r_cooling+"; a_cooling: "+a_cooling)
                                         
-                                        come_xuchu_dict = {}
-                                        come_xuchu_dict["corpus"] = "bbc"
-                                        come_xuchu_dict["representacao"] = escolha_da_representacao
-                                        come_xuchu_dict["tamanho"] = tipo_de_tamanho
-                                        come_xuchu_dict["processamento"] = tipo_de_tipo
-                                        come_xuchu_dict["LSA"] = lsa
-                                        come_xuchu_dict["ncluster"] = n
-                                        come_xuchu_dict["grid_size"] = grid_size
-                                        come_xuchu_dict["learning_rate"] = learning_rate
-                                        come_xuchu_dict["neighboorhood_radius"] = neighboorhood_radius
-                                        come_xuchu_dict["r_cooling"] = r_cooling
-                                        come_xuchu_dict["a_cooling"] = a_cooling
-                                        
-                                        resposta.append((silhueta_acumulador, come_xuchu_dict))
+
+                                        for jj in progressbar.progressbar(range(30)):       
+                                            som = somoclu.Somoclu(grid_size, grid_size,neighborhood=neighboorhood)
+                                            som.train(data=come_xuchu,epochs=1000,radius0=neighboorhood_radius,radiusN=1,radiuscooling=r_cooling,scale0=learning_rate,scaleN=0.01,scalecooling=a_cooling)
+                                            
+                                            kmeaaanz= np.array(Parallel(n_jobs=-1,  backend="threading") (delayed(kmeanza)(som,come_xuchu,nm+2) for nm in range(6)))
+                                            Kmeans_clustering=Kmeans_clustering+kmeaaanz
+
+                                        Kmeans_clustering=Kmeans_clustering/30
+
+                                        for n in range(6):
+                                            
+                                            come_xuchu_dict = {}
+                                            come_xuchu_dict["corpus"] = "bbc"
+                                            come_xuchu_dict["representacao"] = escolha_da_representacao
+                                            come_xuchu_dict["tamanho"] = tipo_de_tamanho
+                                            come_xuchu_dict["processamento"] = tipo_de_tipo
+                                            come_xuchu_dict["LSA"] = lsa
+                                            come_xuchu_dict["ncluster"] = n+2
+                                            come_xuchu_dict["grid_size"] = grid_size
+                                            come_xuchu_dict["learning_rate"] = learning_rate
+                                            come_xuchu_dict["neighboorhood_radius"] = neighboorhood_radius
+                                            come_xuchu_dict["r_cooling"] = r_cooling
+                                            come_xuchu_dict["a_cooling"] = a_cooling
+                                            
+                                            resposta.append((Kmeans_clustering[n], come_xuchu_dict))
     
+    t2=time.time()
+    print("it took ",str(t2-t1))
     pickle.dump(resposta,open("som"+escolha_da_representacao + str(numero_de_cluster) + ".jojo", "wb"))
                                         
                         

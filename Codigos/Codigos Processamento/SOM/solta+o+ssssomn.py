@@ -37,7 +37,7 @@ def clusterizacao(som):
 
 def kmeanza(som,come_xuchu,n):
     silhueta_acumulador=0
-    for _ in range(5):
+    for _ in range(1):
         flaag=True
         while(flaag):
             try:
@@ -52,7 +52,7 @@ def kmeanza(som,come_xuchu,n):
             except:
                 pass
 
-    return  silhueta_acumulador/5
+    return  silhueta_acumulador
 
 
 if __name__ == '__main__':
@@ -60,11 +60,14 @@ if __name__ == '__main__':
     # Retorna tudo oque tem dentro de ObjetosPreProcessados -> só há pastas
     tipos_de_representacao = os.listdir(path_arquivos)
     escolha_da_representacao = sys.argv[1]  # entrada via prompt (string)
+    taxa_de_aprendizado=float(sys.argv[2])
     t1=time.time()
 
     if escolha_da_representacao not in tipos_de_representacao:
         raise ValueError("Voce nao digitou uma entrada valida")
 
+    if taxa_de_aprendizado not in [0.1,0.4,0.7]:
+        raise ValueError("Voce nao digitou uma entrada valida para taxa_de_aprendizado: ['0.1','0.4','0.7'] ")
     #tipos_de_tamanho = os.listdir(path_arquivos + escolha_da_representacao)
     tipos_de_tamanho = ["3k"]
 
@@ -101,26 +104,26 @@ if __name__ == '__main__':
                 print("Somando...", escolha_da_representacao, tipo_de_tamanho, tipo_de_tipo, lsa, ":D")
                 for neighboorhood in ['gaussian','bubble']: 
                     for grid_size in [7,10,14]:
-                        for learning_rate in [0.1,0.4,0.7]:
-                            for neighboorhood_radius  in [int(grid_size/2),2,1]:
-                                for r_cooling in ['linear','exponential']:
-                                    if(neighboorhood_radius==1 and r_cooling=='exponential'):
-                                        continue
+                        for learning_rate in [taxa_de_aprendizado]:
+                            for neighboorhood_radius  in [int(grid_size/2),2]:
+                                if(grid_size in [10,14] and neighboorhood_radius== 2):
+                                    continue
+                                for r_cooling in ['linear']:
+                                    
                                     for a_cooling in ['linear','exponential']:
                                         
                                         Kmeans_clustering=np.zeros(6)
 
-                                        print("grid: "+str(grid_size)+"; learning_rate: "+str(learning_rate)+"; neighboorhood_radius: "+str(neighboorhood_radius)+"; r_cooling: "+r_cooling+"; a_cooling: "+a_cooling)
+                                        print("grid: "+str(grid_size)+"; learning_rate: "+str(learning_rate)+"; neighboorhood_radius: "+str(neighboorhood_radius)+"; r_cooling: "+r_cooling+"; a_cooling: "+a_cooling+ " ;neighboorhood:"+ neighboorhood)
                                         
-
-                                        for jj in progressbar.progressbar(range(30)):       
+                                 
+                                        for jj in range(1):       
                                             som = somoclu.Somoclu(grid_size, grid_size,neighborhood=neighboorhood)
                                             som.train(data=come_xuchu,epochs=1000,radius0=neighboorhood_radius,radiusN=1,radiuscooling=r_cooling,scale0=learning_rate,scaleN=0.01,scalecooling=a_cooling)
-                                            
                                             kmeaaanz= np.array(Parallel(n_jobs=-1,  backend="threading") (delayed(kmeanza)(som,come_xuchu,nm+2) for nm in range(6)))
                                             Kmeans_clustering=Kmeans_clustering+kmeaaanz
 
-                                        Kmeans_clustering=Kmeans_clustering/30
+                                        Kmeans_clustering=Kmeans_clustering
 
                                         for n in range(6):
                                             

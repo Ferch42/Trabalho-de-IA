@@ -144,7 +144,7 @@ if __name__ == '__main__':
     
     t2=time.time()
     print("it took ",str(t2-t1))
-    pickle.dump(resposta,open("som"+escolha_da_representacao + str(numero_de_cluster) + ".jojo", "wb"))
+    pickle.dump(resposta,open("som"+escolha_da_representacao + str(taxa_de_aprendizado) + ".jojo", "wb"))
                                         
                         
             

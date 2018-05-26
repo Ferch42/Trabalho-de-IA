@@ -56,11 +56,12 @@ def kmeanza(som,come_xuchu,n):
 
 
 if __name__ == '__main__':
-    path_arquivos = "../../../Objetos/ObjetosPreProcessados Amostra/"
+    path_arquivos = "../../../Objetos/Objetos Preprocessados Reuters Amostra/"
     # Retorna tudo oque tem dentro de ObjetosPreProcessados -> só há pastas
     tipos_de_representacao = os.listdir(path_arquivos)
     escolha_da_representacao = sys.argv[1]  # entrada via prompt (string)
     taxa_de_aprendizado=float(sys.argv[2])
+    print("reuters")
     t1=time.time()
 
     if escolha_da_representacao not in tipos_de_representacao:
@@ -76,7 +77,7 @@ if __name__ == '__main__':
 
     resposta = []
 
-    print("extra")
+
     for tipo_de_tamanho in tipos_de_tamanho:
         #tipos_de_tipo = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho)
         tipos_de_tipo = ["Normal","Lemma"]
@@ -103,10 +104,11 @@ if __name__ == '__main__':
 
                 print("Somando...", escolha_da_representacao, tipo_de_tamanho, tipo_de_tipo, lsa, ":D")
                 for neighboorhood in ['gaussian','bubble']: 
-                    for grid_size in [10,14]:
+                    for grid_size in [7,10,14]:
                         for learning_rate in [taxa_de_aprendizado]:
-                            for neighboorhood_radius  in [2]:
-                           
+                            for neighboorhood_radius  in [int(grid_size/2),2]:
+                                if(grid_size in [10,14] and neighboorhood_radius== 2):
+                                    continue
                                 for r_cooling in ['linear']:
                                     
                                     for a_cooling in ['linear','exponential']:
@@ -127,7 +129,7 @@ if __name__ == '__main__':
                                         for n in range(6):
                                             
                                             come_xuchu_dict = {}
-                                            come_xuchu_dict["corpus"] = "bbc"
+                                            come_xuchu_dict["corpus"] = "reuters"
                                             come_xuchu_dict["representacao"] = escolha_da_representacao
                                             come_xuchu_dict["tamanho"] = tipo_de_tamanho
                                             come_xuchu_dict["processamento"] = tipo_de_tipo
@@ -143,7 +145,7 @@ if __name__ == '__main__':
     
     t2=time.time()
     print("it took ",str(t2-t1))
-    pickle.dump(resposta,open("som"+escolha_da_representacao + str(taxa_de_aprendizado) + "extra.jojo", "wb"))
+    pickle.dump(resposta,open("som"+escolha_da_representacao + str(taxa_de_aprendizado) + ".jojo", "wb"))
                                         
                         
             

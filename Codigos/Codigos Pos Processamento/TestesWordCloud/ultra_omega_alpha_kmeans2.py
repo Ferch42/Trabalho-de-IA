@@ -3,8 +3,6 @@ import random
 from sklearn.metrics.pairwise import euclidean_distances, cosine_distances, manhattan_distances
 import sys
 import progressbar
-import ultra_omega_alpha_kmeans2
-from silhuetaDInamico import calcular_silhueta_um_grupo,calcularSilhueta,criarConjunto
 
 class ultra_omega_alpha_kmeans:
 
@@ -83,7 +81,6 @@ class ultra_omega_alpha_kmeans:
         self.centroids = novos_centroids
         
     def __inicializarX(self):
-
 
         pass
 
@@ -235,86 +232,41 @@ class ultra_omega_alpha_kmeans:
         
         
     def executar_x_means(self, k_max):
+        vector_de_melhor_silhueta = []
 
+        self.executar()
         
-        kmeans = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans(inicializacao = "++")
-        kmeans.incluir(self.dados)
-        kmeans.inicializar()
-        kmeans.executar()       
-        
-        my_cluster = kmeans.clusters #coordenadas para os dados 
-        my_dados = kmeans.dados # matriz de dados - Para acessar um dado devemos consultar a cordenada em my_cluters (lista de listas)
 
-        self.clusters_com_dados = zip(criarConjunto(my_cluster, my_dados), my_cluster) #[[dados,indices],[dados,indices]]
+        my_cluster =  self.clusters #coordenadas para os dados 
+        my_dados = self.dados # matriz de dados - Para acessar um dado devemos consultar a cordenada em my_cluters (lista de listas)
+
+        self.clusters_com_dados = criarConjunto(my_cluster, my_dados)
+
         
         #Limpando memória
         my_cluster = None
         my_dados = None
 
         k_atual = self.no_clusters
-        
-        while(k_atual <= k_max):
+        while(k_atual <= k_max ):
 
-            print(k_atual)
+            for cluster in self.clusters_com_dados:
 
-            novo_cluster_com_dados = []
-            k_antes = k_atual
-            silhueta_geral = calcular_silhueta_um_grupo(kmeans) #Calculando o silhueta para todos os grupos.
-            for number_cluster, cluster in enumerate(self.clusters_com_dados):
-         
-                if(k_atual + 1 <= k_max):
-                    #print("tentando_dividir")
-                    check, novos_grupos = self.tentar_dividir(cluster, silhueta_geral[number_cluster])
+                silhueta_win = calcular_silhueta_um_grupo(cluster)   
 
-                    if(check is True):
-                        #print("foi true")
-                        k_atual = 1 + k_atual
-                        novo_cluster_com_dados = novo_cluster_com_dados + [x for x in novos_grupos]
-                       # novo_cluster_com_dados.append([dados for dados in novos_grupos])# append nos novos clusters que passaram a existir
-                    else:
-                        #print("foi false")
-                        
-                        novo_cluster_com_dados.append(cluster)
-                else: 
-                    break
-            self.clusters_com_dados = novo_cluster_com_dados
-            kmeans.no_clusters = k_atual
-            kmeans.clusters = [cluster[1] for cluster in self.clusters_com_dados]
-            if(k_antes == k_atual):
-                #print("parando pq k = k")
-                break                        
+                if(k_atual + 1 <= k_max ):
+                    
+                    self.incluir(cluster)
+                    self.inicializar()
+                    self.executar()
+                    #kmeans_inter_grupo precisa ser um vetor de vetores, cujo vetor mais externo ficam os grupos e os vetores internos são os dados para esses grupos.
+                    
+                    silhueta_do_grupo = calcular_silhueta_um_grupo(kmeans_inter_grupo)
+                    if(silhueta_win < silhueta_do_grupo):
+                        silhueta_win = silhueta_do_grupo
+                        k_atual = k_atual + 1
 
-                 
-        self.no_clusters = k_atual
-        self.clusters = [cluster[1] for cluster in self.clusters_com_dados]
-
-
-
-    def tentar_dividir(self,dados_do_cluster, silhueta_win):      
-        
-
-        kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans(inicializacao = "++")
-        kmeans_temp.incluir(dados_do_cluster[0])
-        kmeans_temp.inicializar()
-        kmeans_temp.executar()
-        #kmeans_inter_grupo precisa ser um vetor de vetores, cujo vetor mais externo ficam os grupos e os vetores internos são os dados para esses grupos.
-          
-
-        um_cluster_com_dados = self.criarConjunto(kmeans_temp.clusters,kmeans_temp.dados)
-        
-
-        silhueta_do_grupo = calcularSilhueta(kmeans_temp)
-
-        cluster_com_indice = [[dados_do_cluster[1][i] for i in cluster] for cluster in kmeans_temp.clusters]
-        #print("antigo",silhueta_win,"novo",silhueta_do_grupo)
-        if(silhueta_win < silhueta_do_grupo):
-            silhueta_win = silhueta_do_grupo
-            meu_zip = zip(um_cluster_com_dados, cluster_com_indice)
-            return (True,meu_zip)
-        else:
-            return (False,dados_do_cluster)
-
-
-
+                
+        return k_atual
    
 

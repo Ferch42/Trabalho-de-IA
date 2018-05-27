@@ -263,16 +263,16 @@ class ultra_omega_alpha_kmeans:
             for number_cluster, cluster in enumerate(self.clusters_com_dados):
          
                 if(k_atual + 1 <= k_max):
-                    #print("tentando_dividir")
+                    print("tentando_dividir")
                     check, novos_grupos = self.tentar_dividir(cluster, silhueta_geral[number_cluster])
 
                     if(check is True):
-                        #print("foi true")
+                        print("foi true")
                         k_atual = 1 + k_atual
                         novo_cluster_com_dados = novo_cluster_com_dados + [x for x in novos_grupos]
                        # novo_cluster_com_dados.append([dados for dados in novos_grupos])# append nos novos clusters que passaram a existir
                     else:
-                        #print("foi false")
+                        print("foi false")
                         
                         novo_cluster_com_dados.append(cluster)
                 else: 
@@ -281,7 +281,7 @@ class ultra_omega_alpha_kmeans:
             kmeans.no_clusters = k_atual
             kmeans.clusters = [cluster[1] for cluster in self.clusters_com_dados]
             if(k_antes == k_atual):
-                #print("parando pq k = k")
+                print("parando pq k = k")
                 break                        
 
                  
@@ -293,7 +293,7 @@ class ultra_omega_alpha_kmeans:
     def tentar_dividir(self,dados_do_cluster, silhueta_win):      
         
 
-        kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans(inicializacao = "++")
+        kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans()
         kmeans_temp.incluir(dados_do_cluster[0])
         kmeans_temp.inicializar()
         kmeans_temp.executar()
@@ -306,7 +306,7 @@ class ultra_omega_alpha_kmeans:
         silhueta_do_grupo = calcularSilhueta(kmeans_temp)
 
         cluster_com_indice = [[dados_do_cluster[1][i] for i in cluster] for cluster in kmeans_temp.clusters]
-        #print("antigo",silhueta_win,"novo",silhueta_do_grupo)
+        print("antigo",silhueta_win,"novo",silhueta_do_grupo)
         if(silhueta_win < silhueta_do_grupo):
             silhueta_win = silhueta_do_grupo
             meu_zip = zip(um_cluster_com_dados, cluster_com_indice)

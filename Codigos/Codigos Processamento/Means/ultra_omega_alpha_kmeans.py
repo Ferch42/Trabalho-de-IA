@@ -293,7 +293,7 @@ class ultra_omega_alpha_kmeans:
     def tentar_dividir(self,dados_do_cluster, silhueta_win):      
         
 
-        kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans()
+        kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans(inicializacao = "++")
         kmeans_temp.incluir(dados_do_cluster[0])
         kmeans_temp.inicializar()
         kmeans_temp.executar()

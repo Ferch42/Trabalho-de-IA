@@ -164,7 +164,9 @@ def criar_plots(data_tuples, order_key, representacoes: list = None):
 def plotar(Xs, Ys, representacoes, cur_parameters, order_key):
     fig, ax = plt.subplots()
     for i in range(len(Xs)):
-        ax.plot(Xs[i], Ys[i], label=representacoes[i], c=np.random.rand(3,), marker=(6, 1, 0))
+        inp = np.array(sorted(zip(Xs[i], Ys[i])))
+        # ax.plot(Xs[i], Ys[i], label=representacoes[i], c=np.random.rand(3,), marker=(6, 1, 0))
+        ax.plot(inp[:, 0], inp[:, 1], label=representacoes[i], c=np.random.rand(3, ), marker=(6, 1, 0))
     ax.set_xlabel(str(order_key))
     ax.set_ylabel('silhueta')
     ax.legend()

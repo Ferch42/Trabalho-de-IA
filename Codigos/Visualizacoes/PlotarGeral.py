@@ -7,19 +7,19 @@ import pickle
 
 def load_dir():
     answers = []
-    for f in os.listdir("../../Objetos/Objetos Processados Amostra/Binario/"):
-        with open("../../Objetos/Objetos Processados Amostra/Binario/" + f, "rb") as ans:
+    for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/Binario/"):
+        with open("../../Objetos/ObjetosProcessadosReutersAmostra/Binario/" + f, "rb") as ans:
             answers = answers + pickle.load(ans)
 
-    for f in os.listdir("../../Objetos/Objetos Processados Amostra/TF/"):
+    for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/TF/"):
         if "8" not in f:
-            with open("../../Objetos/Objetos Processados Amostra/TF/" + f, "rb") as ans:
+            with open("../../Objetos/ObjetosProcessadosReutersAmostra/TF/" + f, "rb") as ans:
                 answers = answers + pickle.load(ans)
 
-    # for f in os.listdir("../../Objetos/Objetos Processados Amostra/TFIDF/"):
-    #     if "8" not in f:
-    #         with open("../../Objetos/Objetos Processados Amostra/TFIDF/" + f, "rb") as ans:
-    #             answers = answers + pickle.load(ans)
+    for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/TFIDF/"):
+        if "8" not in f:
+            with open("../../Objetos/ObjetosProcessadosReutersAmostra/TFIDF/" + f, "rb") as ans:
+                answers = answers + pickle.load(ans)
     return answers
 
 
@@ -193,7 +193,7 @@ def gerador_dados(lista):
 if __name__ == '__main__':
     answers = load_dir()
     # fig = Plot_Samples(answers, 'ncluster')
-    criar_plots(answers, 'ncluster', representacoes=['Binario', 'TF']) #  nao precisa especificar representacao tecnicamente
+    criar_plots(answers, 'ncluster') #  nao precisa especificar representacao tecnicamente
 
 # initially ordered by corpus, representacao, tamanho, processamento, LSA, ncluster, algoritmo, distancia, inicializacao
 # answer format sample

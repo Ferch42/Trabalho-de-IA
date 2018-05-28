@@ -11,6 +11,7 @@ import progressbar
 
 
 if __name__ == '__main__':
+    print("xzando")
     path_arquivos = "../../../Objetos/ObjetosPreProcessados Amostra/"
     # Retorna tudo oque tem dentro de ObjetosPreProcessados -> só há pastas
     tipos_de_representacao = os.listdir(path_arquivos)
@@ -80,7 +81,7 @@ if __name__ == '__main__':
 
                         print("(~‾_‾)~  que shit..")
 
-                        for cont in range(30):
+                        for cont in range(1):
 
                         	flagg=True
                         	while(flagg):
@@ -100,7 +101,7 @@ if __name__ == '__main__':
 		                            flagg=False
 		                       	except:
 		                       		print("Error found, but remedied")
-                        silhueta_acumulador = silhueta_acumulador/30
+                        silhueta_acumulador = silhueta_acumulador/1
 
                         resposta.append((silhueta_acumulador, come_xuchu_dict))
 

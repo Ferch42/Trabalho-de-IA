@@ -90,7 +90,7 @@ if __name__ == '__main__':
 		                            kmeans.incluir(come_xuchu)
 		                            kmeans.inicializar()
 
-		                            kmeans.executar_x_means()
+		                            kmeans.executar_x_means(7)
 		                            #print(len(kmeans.clusters[0]),len(kmeans.clusters[1]))
 		                            #print(kmeans.no_clusters)
 

@@ -292,19 +292,29 @@ class ultra_omega_alpha_kmeans:
 
     def tentar_dividir(self,dados_do_cluster, silhueta_win):      
         
+        flarg=True
+        cont=0
+        while(flarg):
+            if(cont>20):
+                raise ValueError("cant converge")
+            try:
+                cont=cont+1
+                print("trying",str(cont))
+                kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans(inicializacao = "++")
+                kmeans_temp.incluir(dados_do_cluster[0])
+                kmeans_temp.inicializar()
+                kmeans_temp.executar()
+                #kmeans_inter_grupo precisa ser um vetor de vetores, cujo vetor mais externo ficam os grupos e os vetores internos são os dados para esses grupos.
+                  
 
-        kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans(inicializacao = "++")
-        kmeans_temp.incluir(dados_do_cluster[0])
-        kmeans_temp.inicializar()
-        kmeans_temp.executar()
-        #kmeans_inter_grupo precisa ser um vetor de vetores, cujo vetor mais externo ficam os grupos e os vetores internos são os dados para esses grupos.
-          
+                um_cluster_com_dados = self.criarConjunto(kmeans_temp.clusters,kmeans_temp.dados)
+                
 
-        um_cluster_com_dados = self.criarConjunto(kmeans_temp.clusters,kmeans_temp.dados)
-        
+                silhueta_do_grupo = calcularSilhueta(kmeans_temp)
+                flarg=False
 
-        silhueta_do_grupo = calcularSilhueta(kmeans_temp)
-
+            except:
+                pass
         cluster_com_indice = [[dados_do_cluster[1][i] for i in cluster] for cluster in kmeans_temp.clusters]
         #print("antigo",silhueta_win,"novo",silhueta_do_grupo)
         if(silhueta_win < silhueta_do_grupo):

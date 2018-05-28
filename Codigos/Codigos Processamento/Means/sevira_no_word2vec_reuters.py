@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
                         print("(~‾_‾)~  que shit..")
 
-                        for cont in range(1):
+                        for cont in range(30):
 
                         	flagg=True
                         	while(flagg):
@@ -90,7 +90,7 @@ if __name__ == '__main__':
 		                            kmeans.incluir(come_xuchu)
 		                            kmeans.inicializar()
 
-		                            kmeans.executar_x_means(7)
+		                            kmeans.executar()
 		                            #print(len(kmeans.clusters[0]),len(kmeans.clusters[1]))
 		                            #print(kmeans.no_clusters)
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 		                            flagg=False
 		                       	except:
 		                       		print("Error found, but remedied")
-                        silhueta_acumulador = silhueta_acumulador/1
+                        silhueta_acumulador = silhueta_acumulador/30
 
                         resposta.append((silhueta_acumulador, come_xuchu_dict))
 

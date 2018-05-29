@@ -115,7 +115,7 @@ def criar_plots(data_tuples, order_key, representacoes=None):
     # fig_list = []
 
     if not representacoes:
-        representacoes = ['Binario', 'TF', 'TFIDF']
+        representacoes = ['Binario', 'TF', 'TFIDF', 'Word2Vec']
 
     keys = data_tuples[0][1].keys()
     if order_key not in keys:
@@ -172,11 +172,10 @@ def plotar(Xs, Ys, representacoes, cur_parameters, order_key):
     fig, ax = plt.subplots()
     for i in range(len(Xs)):
         inp = np.array(sorted(zip(Xs[i], Ys[i])))
+        if len(inp) == 0:
+            continue
         # ax.plot(Xs[i], Ys[i], label=representacoes[i], c=np.random.rand(3,), marker=(6, 1, 0))
-        try:
-            ax.plot(inp[:, 0], inp[:, 1], label=representacoes[i], c=np.random.rand(3, ), marker=(6, 1, 0))
-        except (IndexError, OverflowError) as error:
-            pass
+        ax.plot(inp[:, 0], inp[:, 1], label=representacoes[i], c=np.random.rand(3, ), marker=(6, 1, 0))
     ax.set_xlabel(str(order_key))
     ax.set_ylabel('silhueta')
     ax.legend()

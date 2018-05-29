@@ -7,23 +7,24 @@ import pprint
 
 def load_dir():
     answers = []
-#     for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/Binario/"):
-#         with open("../../Objetos/ObjetosProcessadosReutersAmostra/Binario/" + f, "rb") as ans:
-#             answers = answers + pickle.load(ans)
-#
-#     for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/TF/"):
-#         if "8" not in f:
-#             with open("../../Objetos/ObjetosProcessadosReutersAmostra/TF/" + f, "rb") as ans:
-#                 answers = answers + pickle.load(ans)
-#
-#     for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/TFIDF/"):
-#         if "8" not in f:
-#             with open("../../Objetos/ObjetosProcessadosReutersAmostra/TFIDF/" + f, "rb") as ans:
-#                 answers = answers + pickle.load(ans)
+    # for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/Binario/"):
+    #     with open("../../Objetos/ObjetosProcessadosReutersAmostra/Binario/" + f, "rb") as ans:
+    #         answers = answers + pickle.load(ans)
+    #
+    # for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/TF/"):
+    #     if "8" not in f:
+    #         with open("../../Objetos/ObjetosProcessadosReutersAmostra/TF/" + f, "rb") as ans:
+    #             answers = answers + pickle.load(ans)
+    #
+    # for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostra/TFIDF/"):
+    #     if "8" not in f:
+    #         with open("../../Objetos/ObjetosProcessadosReutersAmostra/TFIDF/" + f, "rb") as ans:
+    #             answers = answers + pickle.load(ans)
     for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostraSOM/REUTERS/"):
         if "8" not in f:
             with open("../../Objetos/ObjetosProcessadosReutersAmostraSOM/REUTERS/" + f, "rb") as ans:
                 answers = answers + pickle.load(ans)
+
     return answers
 
 
@@ -172,7 +173,10 @@ def plotar(Xs, Ys, representacoes, cur_parameters, order_key):
     for i in range(len(Xs)):
         inp = np.array(sorted(zip(Xs[i], Ys[i])))
         # ax.plot(Xs[i], Ys[i], label=representacoes[i], c=np.random.rand(3,), marker=(6, 1, 0))
-        ax.plot(inp[:, 0], inp[:, 1], label=representacoes[i], c=np.random.rand(3, ), marker=(6, 1, 0))
+        try:
+            ax.plot(inp[:, 0], inp[:, 1], label=representacoes[i], c=np.random.rand(3, ), marker=(6, 1, 0))
+        except (IndexError, OverflowError) as error:
+            pass
     ax.set_xlabel(str(order_key))
     ax.set_ylabel('silhueta')
     ax.legend()

@@ -255,7 +255,7 @@ class ultra_omega_alpha_kmeans:
         
         while(k_atual <= k_max):
 
-            print(k_atual)
+            #print(k_atual)
 
             novo_cluster_com_dados = []
             k_antes = k_atual

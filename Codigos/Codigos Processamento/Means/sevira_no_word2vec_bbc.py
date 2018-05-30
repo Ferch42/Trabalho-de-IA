@@ -43,7 +43,7 @@ if __name__ == '__main__':
                     come_xuchu = pickle.load(f1) #Abre Representa;áo
 
                 if (not isinstance(come_xuchu, np.ndarray)):
-                    come_xuchu = np.array(come_xuchu.todense(), dtype=np.float64)
+                    come_xuchu = np.array(come_xuchu, dtype=np.float64)
                 lsa = False
 
                 # print("TSNING...")

@@ -20,9 +20,9 @@ def load_dir():
     #     if "8" not in f:
     #         with open("../../Objetos/ObjetosProcessadosReutersAmostra/TFIDF/" + f, "rb") as ans:
     #             answers = answers + pickle.load(ans)
-    for f in os.listdir("../../Objetos/ObjetosProcessadosReutersAmostraSOM/REUTERS/"):
+    for f in os.listdir("../../Objetos/Objetos Processados Amostra SOM/BBC/"):
         if "8" not in f:
-            with open("../../Objetos/ObjetosProcessadosReutersAmostraSOM/REUTERS/" + f, "rb") as ans:
+            with open("../../Objetos/Objetos Processados Amostra SOM/BBC/" + f, "rb") as ans:
                 answers = answers + pickle.load(ans)
 
     return answers

@@ -11,8 +11,8 @@ import progressbar
 
 
 if __name__ == '__main__':
-    path_arquivos = "../../../Objetos/ObjetosPreProcessados Amostra/"
-    print("WORD2VEC PORRA")
+    path_arquivos = "../../../Objetos Preprocessados Reuters Amostra/"
+    print("WORD2VEC PORRA REUTERS")
     # Retorna tudo oque tem dentro de ObjetosPreProcessados -> só há pastas
     tipos_de_representacao = os.listdir(path_arquivos)
     escolha_da_representacao = sys.argv[1]  # entrada via prompt (string)
@@ -153,4 +153,4 @@ if __name__ == '__main__':
 
 
 
-pickle.dump(resposta,open(escolha_da_representacao + str(numero_de_cluster) + "word2vec_bbc.jojo", "wb")) 
+pickle.dump(resposta,open(escolha_da_representacao + str(numero_de_cluster) + "word2vec_reuters.jojo", "wb")) 

@@ -34,11 +34,11 @@ if __name__ == '__main__':
         #tipos_de_tipo = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho)
         tipos_de_tipo = ["Normal","Lemma"]
         for tipo_de_tipo in tipos_de_tipo: #Normal ou Lema
-            objetos = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo)
+            objetos = os.listdir(path_arquivos + escolha_da_representacao + "/")
 
             for objeto in objetos:
                 with open(
-                        path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo + "/" + objeto,
+                        path_arquivos + escolha_da_representacao + "/" +objeto,
                         "rb") as f1:
                     come_xuchu = pickle.load(f1) #Abre Representa;áo
 

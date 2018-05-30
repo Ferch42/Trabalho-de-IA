@@ -69,15 +69,31 @@ class GroupedColorFunc(object):
 
 class PalavrasMaisFrequentesCluster:
  
-  #recebe caminho para pasta dos textos e devolve o corpus com esses textos em forma de uma lista
-  def __get_corpus(path):
-    folders = os.listdir(path) # vai devolver os nomes da pasta
+  #recebe o nome da pasta de um corpus e devolve o corpus com os textos formando uma lista
+  def __get_corpus(nome_corpus):
+    path = '../../../'
     corpus = []
-
-    for folder in folders:
-      for file in os.listdir(path+folder):
-        f = open(path+folder+'/'+file).read()
-        corpus.append(f.lower()) # add os arqvos textos
+    if(nome_corpus == 'bbc'):
+      path = path + 'bbc/'
+      folders = os.listdir(path) # vai devolver os nomes da pasta
+      for folder in folders:
+        for file in os.listdir(path+folder):
+          f = open(path+folder+'/'+file).read()
+          corpus.append(f.lower()) # add os arqvos textos
+      return corpus
+    elif(nome_corpus == 'bbc_amostra'):
+      path = path + 'bbc amostra/'
+    elif(nome_corpus == 'reuters'):
+      path = path + 'reuters/text/'
+    elif(nome_corpus == 'reuters_amostra'):
+      path = path + 'reuters amostra/'
+    else:
+      print("Nome invalido!!!\nOpcoes validas: 'bbc', 'bbc_amostra','reuters', ou 'reuters_amostra'.")
+      exit()
+    folder = os.listdir(path)
+    for file in folder:
+      f = open(path + file)
+      corpus.append(f)
     return corpus
 
 
@@ -94,7 +110,11 @@ class PalavrasMaisFrequentesCluster:
   """recebe a lista de listas de textos, transforma a lista de textos em lista de palavras 
   e devolve lista de listas de palavras, em que cada lista interna representa um cluster"""
   def __get_palavras_clusterizadas(corpus_clusterizado):
-    stopWords = ENGLISH_STOP_WORDS
+    
+    stopWords = [x for x in ENGLISH_STOP_WORDS]
+    otherCommonWords = ['make','year','years','new','people','said','say','time','brown','good','told','000','says','took','way','think','going','just','don','did','use','best','didn']
+    for w in otherCommonWords:
+      stopWords.append(w)
     palavras_clusterizadas = [[] for _ in range(len(corpus_clusterizado))]
     for n_cluster,cluster in enumerate(corpus_clusterizado):
       string = ""
@@ -107,9 +127,9 @@ class PalavrasMaisFrequentesCluster:
       for palavra in palavras:
         word = palavra.replace("\\s+","")
         
-        if(word not in stopWords and not len(word) <= 2):
+        if(word not in stopWords and not len(word) <= 2 and not word.isdigit()):
           palavras_clusterizadas[n_cluster].append(word)
-      print(palavras_clusterizadas)
+      
     return palavras_clusterizadas
 
   #recebe uma lista simples de palavras e devolve uma lista de tuplas(palavra, frequencia)
@@ -126,7 +146,6 @@ class PalavrasMaisFrequentesCluster:
       atual = palavra
       contador = 1
     lista_tuplas.append((atual, contador))
-    print(sorted(lista_tuplas, key = lambda tupla: tupla[1], reverse = True))
 
     return sorted(lista_tuplas, key = lambda tupla: tupla[1], reverse = True)
 
@@ -140,18 +159,17 @@ class PalavrasMaisFrequentesCluster:
         if(contador == n):
           break
         lista_mais_frequentes[n_cluster].append(tupla[0])
-    print(lista_mais_frequentes)
     return lista_mais_frequentes
 
   #método principal que recebe numero n e caminho path e devolve lista de listas das palavras ,ais frequentes por cluster
-  def gerar_n_palavras_mais_frequentes_por_cluster(n, path, kmeans):
-    corpus = PalavrasMaisFrequentesCluster.__get_corpus(path)
+  def gerar_n_palavras_mais_frequentes_por_cluster(n, nome_corpus, kmeans):
+    corpus = PalavrasMaisFrequentesCluster.__get_corpus(nome_corpus)
     corpus_clusterizado = PalavrasMaisFrequentesCluster.__get_corpus_clusterizado(corpus,kmeans)
     palavras_clusterizadas = PalavrasMaisFrequentesCluster.__get_palavras_clusterizadas(corpus_clusterizado)
     return PalavrasMaisFrequentesCluster.__get_n_palavras_mais_frequentes_cluster(n, palavras_clusterizadas)
 
 def get_lista_cores():
-  colors = ['blue','white','red','green','purple','yellow','pink','brown','orange']
+  colors = ['midnightblue','black','red','green','purple','yellow','cyan']
   '''for name in matplotlib.colors.cnames.items():
     colors.append(name[0])'''
   return colors
@@ -174,14 +192,13 @@ def converter_listas_em_texto(lista_palavras_mais_frequentes_clusterizadas):
   return text
 
 def plotar_word_cloud(lista_palavras_mais_frequentes_clusterizadas):
-  default_color = 'pink'
+  default_color = 'grey'
   colors = get_lista_cores()
   word_to_color = colorir_palavras_dos_clusters(lista_palavras_mais_frequentes_clusterizadas,colors)
   print(word_to_color)
   grouped_color_func = GroupedColorFunc(word_to_color, default_color)
   text = converter_listas_em_texto(lista_palavras_mais_frequentes_clusterizadas)
-  print(text)
-  wc = WordCloud(collocations=False).generate(text)
+  wc = WordCloud(width=2000,height=1800, background_color='white', min_font_size=5).generate(text)
 
   wc.recolor(color_func=grouped_color_func)
 

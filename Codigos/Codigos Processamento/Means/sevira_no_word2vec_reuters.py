@@ -11,7 +11,7 @@ import progressbar
 
 
 if __name__ == '__main__':
-    path_arquivos = "../../../Objetos Preprocessados Reuters Amostra/"
+    path_arquivos = "../../../Objetos/Objetos Preprocessados Reuters Amostra/"
     print("WORD2VEC PORRA REUTERS")
     # Retorna tudo oque tem dentro de ObjetosPreProcessados -> só há pastas
     tipos_de_representacao = os.listdir(path_arquivos)

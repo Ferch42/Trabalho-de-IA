@@ -126,7 +126,7 @@ class ultra_omega_alpha_kmeans:
             sorted_dist=sorted(distancias_cluster,key= lambda x:x[1])
             for _ in range(2):
                 for si in sorted_dist:
-                    if(si in self.invalid_positions): #verifica se algum selecionou o dado em avaliação
+                    if(si[0] in self.invalid_positions): #verifica se algum selecionou o dado em avaliação
                         continue
                     else:
                         self.invalid_positions.append(si[0])

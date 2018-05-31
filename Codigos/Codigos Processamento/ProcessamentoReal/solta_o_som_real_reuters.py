@@ -64,14 +64,28 @@ if __name__ == '__main__':
 
     for i,melhor in enumerate(top_5):
         print(str(i+1) + "ª melhor configuracao")
-        som = somoclu.Somoclu(melhor[3], melhor[3], neighborhood=melhor[12])
-        som.train(data=melhor[11],epochs=1000,radius0=melhor[6],radiusN=1,radiuscooling=melhor[8],scale0=melhor[4],scaleN=0.01,scalecooling=melhor[1])
-        kmeans=KMeans(n_clusters=melhor[5])
-        som.cluster(kmeans)
-        kmeanz = Kmeanz()
-        kmeanz.clusters= clusterizacao(som)
-        kmeanz.dados= come_xuchu
-        silhueta_final = silhuetaDInamico.calcularSilhueta(kmeanz)
+        
+         best_score = -1000
+        best_kmeanz = None
+        best_som = None
+        silhueta_acumulador = 0
+        
+        for j in range(5)
+            print(j+1)
+            som = somoclu.Somoclu(melhor[3], melhor[3], neighborhood=melhor[12])
+            som.train(data=melhor[11],epochs=1000,radius0=melhor[6],radiusN=1,radiuscooling=melhor[8],scale0=melhor[4],scaleN=0.01,scalecooling=melhor[1])
+            kmeans=KMeans(n_clusters=melhor[5])
+            som.cluster(kmeans)
+            kmeanz = Kmeanz()
+            kmeanz.clusters= clusterizacao(som)
+            kmeanz.dados= melhor[11]
+            silhueta_final = silhuetaDInamico.calcularSilhueta(kmeanz)
+            silhueta_acumulador = silhueta_acumulador + silhueta_final
+            flagg=False
+            if(silhueta_final > best_score):
+                best_score = silhueta_final
+                best_kmeanz = kmeanz
+                best_som = som
 
         come_xuchu_dict = {}
         come_xuchu_dict["corpus"] = melhor[2]
@@ -86,10 +100,10 @@ if __name__ == '__main__':
         come_xuchu_dict["r_cooling"] = melhor[8]
         come_xuchu_dict["a_cooling"] = melhor[1]
         come_xuchu_dict["neighborhood"] = melhor[12]
-                                            
-        resposta.append((som, kmeanz, silhueta_final, come_xuchu_dict))
-    t2=time.time()
-    print("it took ",str(t2-t1))
+        
+        silhueta_acumulador = silhueta_acumulador/5    
+        resposta.append((best_som, best_kmeanz, silhueta_acumulador, best_score, come_xuchu_dict))
+
     pickle.dump(resposta,open("som_real_reuters.lai", "wb"))
 
         

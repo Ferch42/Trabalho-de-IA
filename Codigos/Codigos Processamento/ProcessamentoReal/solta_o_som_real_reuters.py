@@ -40,15 +40,15 @@ if __name__ == '__main__':
     #1
     come_xuchu1 = pickle.load(open("../../../Objetos/Objetos Preprocessados Reuters/Word2Vec/Word2VecLSA.aug","rb"))
     if (not isinstance(come_xuchu1, np.ndarray)):
-        come_xuchu1 = np.array(come_xuchu1.todense(), dtype=np.float64)
+        come_xuchu1 = np.array(come_xuchu1, dtype=np.float64)
     #2
     come_xuchu2 = pickle.load(open("../../../Objetos/Objetos Preprocessados Reuters/Word2Vec/Word2VecLSA.aug","rb"))
     if (not isinstance(come_xuchu2, np.ndarray)):
-        come_xuchu2 = np.array(come_xuchu2.todense(), dtype=np.float64)
+        come_xuchu2 = np.array(come_xuchu2, dtype=np.float64)
     #3
     come_xuchu3 = pickle.load(open("../../../Objetos/Objetos Preprocessados Reuters/Word2Vec/Word2Vec.aug","rb"))
     if (not isinstance(come_xuchu3, np.ndarray)):
-        come_xuchu3 = np.array(come_xuchu3.todense(), dtype=np.float64)
+        come_xuchu3 = np.array(come_xuchu3, dtype=np.float64)
     #4
     come_xuchu4 = pickle.load(open("../../../Objetos/Objetos Preprocessados Reuters/TF/3k/Normal/arq_LSA.aug","rb"))
     if (not isinstance(come_xuchu4, np.ndarray)):

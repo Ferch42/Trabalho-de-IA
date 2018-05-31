@@ -70,7 +70,7 @@ if __name__ == '__main__':
         best_som = None
         silhueta_acumulador = 0
         
-        for j in range(5)
+        for j in range(5):
             print(j+1)
             som = somoclu.Somoclu(melhor[3], melhor[3], neighborhood=melhor[12])
             som.train(data=melhor[11],epochs=1000,radius0=melhor[6],radiusN=1,radiuscooling=melhor[8],scale0=melhor[4],scaleN=0.01,scalecooling=melhor[1])

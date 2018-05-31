@@ -129,7 +129,7 @@ class ultra_omega_alpha_kmeans:
             sorted_dist=sorted(distancias_cluster,key= lambda x:x[1])
             for _ in range(2):
                 for si in sorted_dist:
-                    if(si in self.invalid_positions): #verifica se algum selecionou o dado em avaliação
+                    if(si[0] in self.invalid_positions): #verifica se algum selecionou o dado em avaliação
                         continue
                     else:
                         self.invalid_positions.append(si[0])
@@ -241,7 +241,7 @@ class ultra_omega_alpha_kmeans:
         kmeans = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans(inicializacao = "++")
         kmeans.incluir(self.dados)
         kmeans.inicializar()
-        kmeans.executar()       
+        kmeans.executar()
         
         my_cluster = kmeans.clusters #coordenadas para os dados 
         my_dados = kmeans.dados # matriz de dados - Para acessar um dado devemos consultar a cordenada em my_cluters (lista de listas)
@@ -260,6 +260,7 @@ class ultra_omega_alpha_kmeans:
 
             novo_cluster_com_dados = []
             k_antes = k_atual
+            flarg=True
             silhueta_geral = calcular_silhueta_um_grupo(kmeans) #Calculando o silhueta para todos os grupos.
             for number_cluster, cluster in enumerate(self.clusters_com_dados):
          
@@ -276,17 +277,19 @@ class ultra_omega_alpha_kmeans:
                         #print("foi false")
                         
                         novo_cluster_com_dados.append(cluster)
-                else: 
+                else:
+                    flarg=False
                     break
-            self.clusters_com_dados = novo_cluster_com_dados
-            kmeans.no_clusters = k_atual
+            if(flarg):
+                self.clusters_com_dados = novo_cluster_com_dados
+            kmeans.no_clusters = len(self.clusters_com_dados)
             kmeans.clusters = [cluster[1] for cluster in self.clusters_com_dados]
             if(k_antes == k_atual):
                 #print("parando pq k = k")
                 break                        
 
                  
-        self.no_clusters = k_atual
+        self.no_clusters = len(self.clusters_com_dados)
         self.clusters = [cluster[1] for cluster in self.clusters_com_dados]
 
 

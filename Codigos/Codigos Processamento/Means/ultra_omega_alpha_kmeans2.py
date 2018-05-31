@@ -199,7 +199,7 @@ class ultra_omega_alpha_kmeans:
         alg = self.algoritmo #Vê qual o tipo de calculo será executado -> Media ou Mediana
         
         if alg == "media":
-            for _ in progressbar.progressbar(range(self.no_iteracoes)):# no_iteracoes configuração padrão igual a 500
+            for _ in range(self.no_iteracoes):# no_iteracoes configuração padrão igual a 500
                 #hsit={}
                 #hsit['centroids']=self.centroids.copy()
                 #hsit['clusters']=self.clusters.copy()

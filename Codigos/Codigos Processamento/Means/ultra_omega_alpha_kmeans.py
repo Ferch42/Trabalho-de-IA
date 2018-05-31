@@ -202,7 +202,7 @@ class ultra_omega_alpha_kmeans:
         alg = self.algoritmo #Vê qual o tipo de calculo será executado -> Media ou Mediana
         
         if alg == "media":
-            for _ in progressbar.progressbar(range(self.no_iteracoes)):# no_iteracoes configuração padrão igual a 500
+            for _ in range(self.no_iteracoes):# no_iteracoes configuração padrão igual a 500
                 #hsit={}
                 #hsit['centroids']=self.centroids.copy()
                 #hsit['clusters']=self.clusters.copy()
@@ -300,7 +300,7 @@ class ultra_omega_alpha_kmeans:
                 raise ValueError("cant converge")
             try:
                 cont=cont+1
-                print("trying",str(cont))
+                #print("trying",str(cont))
                 kmeans_temp = ultra_omega_alpha_kmeans2.ultra_omega_alpha_kmeans(inicializacao = "++")
                 kmeans_temp.incluir(dados_do_cluster[0])
                 kmeans_temp.inicializar()

@@ -82,7 +82,7 @@ if __name__ == '__main__':
                         print("(~‾_‾)~  que shit..")
 
                         for cont in range(30):
-
+                            print(str(cont))
                         	flagg=True
                         	while(flagg):
                         		try:

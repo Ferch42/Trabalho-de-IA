@@ -102,13 +102,14 @@ if __name__ == '__main__':
                 if ("LSA" in objeto):
                     lsa = True
 
+                print("extra reuters")
+
                 print("Somando...", escolha_da_representacao, tipo_de_tamanho, tipo_de_tipo, lsa, ":D")
                 for neighboorhood in ['gaussian','bubble']: 
-                    for grid_size in [7,10,14]:
+                    for grid_size in [10,14]:
                         for learning_rate in [taxa_de_aprendizado]:
-                            for neighboorhood_radius  in [int(grid_size/2),2]:
-                                if(grid_size in [10,14] and neighboorhood_radius== 2):
-                                    continue
+                            for neighboorhood_radius  in [2]:
+                              
                                 for r_cooling in ['linear']:
                                     
                                     for a_cooling in ['linear','exponential']:
@@ -145,7 +146,7 @@ if __name__ == '__main__':
     
     t2=time.time()
     print("it took ",str(t2-t1))
-    pickle.dump(resposta,open("som"+escolha_da_representacao + str(taxa_de_aprendizado) + ".jojo", "wb"))
+    pickle.dump(resposta,open("som"+escolha_da_representacao + str(taxa_de_aprendizado) + "extra_reuters.jojo", "wb"))
                                         
                         
             

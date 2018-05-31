@@ -33,16 +33,16 @@ if __name__ == '__main__':
         #tipos_de_tipo = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho)
         tipos_de_tipo = ["Normal","Lemma"]
         for tipo_de_tipo in tipos_de_tipo: #Normal ou Lema
-            objetos = os.listdir(path_arquivos + escolha_da_representacao)
+            objetos = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo)
 
             for objeto in objetos:
                 with open(
-                        path_arquivos + escolha_da_representacao + "/" + objeto,
+                        path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo + "/" + objeto,
                         "rb") as f1:
                     come_xuchu = pickle.load(f1) #Abre Representa;áo
 
                 if (not isinstance(come_xuchu, np.ndarray)):
-                    come_xuchu = np.array(come_xuchu, dtype=np.float64)
+                    come_xuchu = np.array(come_xuchu.todense(), dtype=np.float64)
                 lsa = False
 
                 # print("TSNING...")
@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
                         print("(~‾_‾)~  que shit..")
 
-                        for cont in range(1):
+                        for cont in range(30):
 
                         	flagg=True
                         	while(flagg):
@@ -100,7 +100,7 @@ if __name__ == '__main__':
 		                            flagg=False
 		                       	except:
 		                       		print("Error found, but remedied")
-                        silhueta_acumulador = silhueta_acumulador/1
+                        silhueta_acumulador = silhueta_acumulador/30
 
                         resposta.append((silhueta_acumulador, come_xuchu_dict))
 

@@ -83,24 +83,24 @@ if __name__ == '__main__':
 
                         for cont in range(30):
                             print(str(cont))
-                        	flagg=True
-                        	while(flagg):
-                        		try:
-		                            kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=numero_de_cluster,distancia=distancia,algoritmo=algoritmo)
-		                            
-		                            kmeans.incluir(come_xuchu)
-		                            kmeans.inicializar()
+                            flagg=True
+                            while(flagg):
+                                try:
+                                    kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=numero_de_cluster,distancia=distancia,algoritmo=algoritmo)
+                                    
+                                    kmeans.incluir(come_xuchu)
+                                    kmeans.inicializar()
 
-		                            kmeans.executar_x_means(7)
-		                            #print(len(kmeans.clusters[0]),len(kmeans.clusters[1]))
-		                            #print(kmeans.no_clusters)
+                                    kmeans.executar_x_means(7)
+                                    #print(len(kmeans.clusters[0]),len(kmeans.clusters[1]))
+                                    #print(kmeans.no_clusters)
 
-		                            silhueta_final = silhuetaDInamico.calcularSilhueta(kmeans)
+                                    silhueta_final = silhuetaDInamico.calcularSilhueta(kmeans)
 
-		                            silhueta_acumulador = silhueta_acumulador + silhueta_final
-		                            flagg=False
-		                       	except:
-		                       		print("Error found, but remedied")
+                                    silhueta_acumulador = silhueta_acumulador + silhueta_final
+                                    flagg=False
+                                except:
+                                    print("Error found, but remedied")
                         silhueta_acumulador = silhueta_acumulador/30
 
                         resposta.append((silhueta_acumulador, come_xuchu_dict))

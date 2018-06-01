@@ -124,14 +124,15 @@ class ultra_omega_alpha_kmeans:
         for c in range(self.no_clusters):
             distancias_cluster=[enu for enu in enumerate(distancias_clusters[c])]
             sorted_dist=sorted(distancias_cluster,key= lambda x:x[1])
-            for si in sorted_dist:
-                if(si in self.invalid_positions): #verifica se algum selecionou o dado em avaliação
-                    continue
-                else:
-                    self.invalid_positions.append(si[0])
-                    break
+            for _ in range(2):
+                for si in sorted_dist:
+                    if(si[0] in self.invalid_positions): #verifica se algum selecionou o dado em avaliação
+                        continue
+                    else:
+                        self.invalid_positions.append(si[0])
+                        break
             self.clusters[c].append(self.invalid_positions[-1]) #dado pertencendo a um cluster, então ele vai para invalid_positions
-
+            self.clusters[c].append(self.invalid_positions[-2])
         #Para cada dado em 'dados' calcula-se a distancia deste dado para cada centroid em 'centroids' e armazena em 'arr_distancias'
         #distancias_clusters=[np.array([x]).T for x in distancias_clusters]
         # arr_distancias = np.concatenate(distancias_clusters,axis=1)

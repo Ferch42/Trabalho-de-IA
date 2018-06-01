@@ -14,7 +14,7 @@ if __name__ == "__main__":
     print("xzando")
     #Melhores representacoes
     #1
-    come_xuchu1 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/Binario/3K/Normal/binaryVector3kLSA.aug","rb"))
+    come_xuchu1 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/Word2Vec/Word2VecLSA.aug","rb"))
     if (not isinstance(come_xuchu1, np.ndarray)):
         come_xuchu1 = np.array(come_xuchu1.todense(), dtype=np.float64)
     #2
@@ -26,7 +26,9 @@ if __name__ == "__main__":
     if (not isinstance(come_xuchu3, np.ndarray)):
         come_xuchu3 = np.array(come_xuchu3.todense(), dtype=np.float64)
     
-    top_1 = [(True, 'media', 'bbc', 'euclidiana', '++', 'Normal', 'TFIDF', '3k', come_xuchu3)]
+    top_1 = [(True, 'media', 'bbc', 'cosseno', '++', 'Normal', 'Word2Vec', '3k', come_xuchu1),
+    (True, 'media', 'bbc', 'cosseno', 'padrao', 'Normal', 'Word2Vec', '3k', come_xuchu1),
+    (True, 'media', 'bbc', 'euclidiana', 'padrao', 'Normal', 'Word2Vec', '3k', come_xuchu1)]
 
     for i,melhores_dos_melhores in enumerate(top_1):
         print(str(i+1) + "ª melhor configuracao")
@@ -50,7 +52,7 @@ if __name__ == "__main__":
             flagg=True
             while(flagg):
                 try:
-                    kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=7,distancia=melhores_dos_melhores[3],algoritmo=melhores_dos_melhores[1])
+                    kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=5,distancia=melhores_dos_melhores[3],algoritmo=melhores_dos_melhores[1])
                                         
                     kmeans.incluir(melhores_dos_melhores[8])
                     kmeans.inicializar()
@@ -75,7 +77,7 @@ if __name__ == "__main__":
         come_xuchu_dict["ncluster"] = best_kmeans.no_clusters
         resposta.append((silhueta_acumulador, best_score, best_kmeans, come_xuchu_dict))
 
-    pickle.dump(resposta,open("resualtado_final_bbc_normal.lai", "wb"))
+    pickle.dump(resposta,open("resualtado_final_bbc_5clusterz.lai", "wb"))
 
     '''
     #################################################################################################################################################

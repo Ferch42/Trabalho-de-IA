@@ -24,7 +24,7 @@ if __name__ == "__main__":
     #3
     come_xuchu3 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/TF/3K/Lemma/tfVector3kTokenizerLemmatizerLSA.aug","rb"))
     if (not isinstance(come_xuchu3, np.ndarray)):
-        come_xuchu3 = np.array(come_xuchu.todense(), dtype=np.float64)
+        come_xuchu3 = np.array(come_xuchu3.todense(), dtype=np.float64)
     
     top_3 = [(True, 'media', 'bbc', 'manhattan', 'x', 'Normal', 'TF', '3k', come_xuchu1), (True, 'media', 'bbc', 'cosseno', 'x', 'Lemma', 'TF', '3k', come_xuchu2), (True, 'media', 'bbc', 'manhattan', 'x', 'Lemma', 'TF', '3k', come_xuchu3)]
 

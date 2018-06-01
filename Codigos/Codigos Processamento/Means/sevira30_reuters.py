@@ -33,16 +33,16 @@ if __name__ == '__main__':
         #tipos_de_tipo = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho)
         tipos_de_tipo = ["Normal","Lemma"]
         for tipo_de_tipo in tipos_de_tipo: #Normal ou Lema
-            objetos = os.listdir(path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo)
+            objetos = os.listdir(path_arquivos + escolha_da_representacao + "/" )
 
             for objeto in objetos:
                 with open(
-                        path_arquivos + escolha_da_representacao + "/" + tipo_de_tamanho + "/" + tipo_de_tipo + "/" + objeto,
+                        path_arquivos + escolha_da_representacao + "/"  + objeto,
                         "rb") as f1:
                     come_xuchu = pickle.load(f1) #Abre Representa;áo
 
                 if (not isinstance(come_xuchu, np.ndarray)):
-                    come_xuchu = np.array(come_xuchu.todense(), dtype=np.float64)
+                    come_xuchu = np.array(come_xuchu, dtype=np.float64)
                 lsa = False
 
                 # print("TSNING...")
@@ -82,24 +82,24 @@ if __name__ == '__main__':
 
                         for cont in range(30):
                             print(str(cont))
-                        	flagg=True
-                        	while(flagg):
-                        		try:
-		                            kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=numero_de_cluster,distancia=distancia,algoritmo=algoritmo)
-		                            
-		                            kmeans.incluir(come_xuchu)
-		                            kmeans.inicializar()
+                            flagg=True
+                            while(flagg):
+                                try:
+                                    kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=numero_de_cluster,distancia=distancia,algoritmo=algoritmo)
+                                    
+                                    kmeans.incluir(come_xuchu)
+                                    kmeans.inicializar()
 
-		                            kmeans.executar_x_means(7)
-		                            #print(len(kmeans.clusters[0]),len(kmeans.clusters[1]))
-		                            #print(kmeans.no_clusters)
+                                    kmeans.executar_x_means(7)
+                                    #print(len(kmeans.clusters[0]),len(kmeans.clusters[1]))
+                                    #print(kmeans.no_clusters)
 
-		                            silhueta_final = silhuetaDInamico.calcularSilhueta(kmeans)
+                                    silhueta_final = silhuetaDInamico.calcularSilhueta(kmeans)
 
-		                            silhueta_acumulador = silhueta_acumulador + silhueta_final
-		                            flagg=False
-		                       	except:
-		                       		print("Error found, but remedied")
+                                    silhueta_acumulador = silhueta_acumulador + silhueta_final
+                                    flagg=False
+                                except:
+                                    print("Error found, but remedied")
                         silhueta_acumulador = silhueta_acumulador/30
 
                         resposta.append((silhueta_acumulador, come_xuchu_dict))

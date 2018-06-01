@@ -259,8 +259,8 @@ class ultra_omega_alpha_kmeans:
             #print(k_atual)
 
             novo_cluster_com_dados = []
+            flarg = True
             k_antes = k_atual
-            flarg=True
             silhueta_geral = calcular_silhueta_um_grupo(kmeans) #Calculando o silhueta para todos os grupos.
             for number_cluster, cluster in enumerate(self.clusters_com_dados):
          

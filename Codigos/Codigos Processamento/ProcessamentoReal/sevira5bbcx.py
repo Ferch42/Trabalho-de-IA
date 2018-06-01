@@ -14,21 +14,21 @@ if __name__ == "__main__":
     print("xzando")
     #Melhores representacoes
     #1
-    come_xuchu1 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/TF/3K/Normal/tfVector3kLSA.aug","rb"))
+    come_xuchu1 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/Binario/3K/Normal/binaryVector3kLSA.aug","rb"))
     if (not isinstance(come_xuchu1, np.ndarray)):
         come_xuchu1 = np.array(come_xuchu1.todense(), dtype=np.float64)
     #2
-    come_xuchu2 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/TF/3K/Lemma/tfVector3kTokenizerLemmatizerLSA.aug","rb"))
+    come_xuchu2 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/Binario/3K/Lemma/binaryVector3kTokenizerLemmatizerLSA.aug","rb"))
     if (not isinstance(come_xuchu2, np.ndarray)):
         come_xuchu2 = np.array(come_xuchu2.todense(), dtype=np.float64)
     #3
-    come_xuchu3 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/TF/3K/Lemma/tfVector3kTokenizerLemmatizerLSA.aug","rb"))
+    come_xuchu3 = pickle.load(open("../../../Objetos/ObjetosPreProcessados/TFIDF/3K/Normal/tfidfVector3kLSA.aug","rb"))
     if (not isinstance(come_xuchu3, np.ndarray)):
         come_xuchu3 = np.array(come_xuchu3.todense(), dtype=np.float64)
     
-    top_3 = [(True, 'media', 'bbc', 'manhattan', 'x', 'Normal', 'TF', '3k', come_xuchu1), (True, 'media', 'bbc', 'cosseno', 'x', 'Lemma', 'TF', '3k', come_xuchu2), (True, 'media', 'bbc', 'manhattan', 'x', 'Lemma', 'TF', '3k', come_xuchu3)]
+    top_1 = [(True, 'media', 'bbc', 'euclidiana', '++', 'Normal', 'TFIDF', '3k', come_xuchu3)]
 
-    for i,melhores_dos_melhores in enumerate(top_3):
+    for i,melhores_dos_melhores in enumerate(top_1):
         print(str(i+1) + "ª melhor configuracao")
         come_xuchu_dict = {}
         come_xuchu_dict["LSA"] = melhores_dos_melhores[0]
@@ -50,12 +50,12 @@ if __name__ == "__main__":
             flagg=True
             while(flagg):
                 try:
-                    kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=2,distancia=melhores_dos_melhores[3],algoritmo=melhores_dos_melhores[1])
+                    kmeans = ultra_omega_alpha_kmeans.ultra_omega_alpha_kmeans(no_clusters=7,distancia=melhores_dos_melhores[3],algoritmo=melhores_dos_melhores[1])
                                         
                     kmeans.incluir(melhores_dos_melhores[8])
                     kmeans.inicializar()
 
-                    kmeans.executar_x_means(7)
+                    kmeans.executar()
                                         #print(len(kmeans.clusters[0]),len(kmeans.clusters[1]))
                                         #print(kmeans.no_clusters)
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
         come_xuchu_dict["ncluster"] = best_kmeans.no_clusters
         resposta.append((silhueta_acumulador, best_score, best_kmeans, come_xuchu_dict))
 
-    pickle.dump(resposta,open("resualtado_final_bbc_x.lai", "wb"))
+    pickle.dump(resposta,open("resualtado_final_bbc_normal.lai", "wb"))
 
     '''
     #################################################################################################################################################

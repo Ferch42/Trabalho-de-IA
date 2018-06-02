@@ -14,21 +14,25 @@ def get_distancias(dados):
         distances[i] = np.sqrt(((dados[i] - mean_point) ** 2).sum())
     return distances
 
-def get_indices_para_rem(distances):
-    portion = int(0.013*len(distances))
+def get_indices_para_rem(distances, pct=None):
+    if not pct:
+        pct = 0.03
+    portion = int(pct*len(distances))
     sorted_distances = sorted(distances, reverse=True)[:portion]
     to_be_removed = pd.Series(distances)[pd.Series(distances).isin(sorted_distances)]
     indexes_to_be_removed = [ind for ind in to_be_removed.index]
     return indexes_to_be_removed
 
-def return_new_ndarray_indices(dados):
+def return_new_ndarray_indices(dados, pct=None):
+    if not pct:
+        pct = 0.03
     distances = get_distancias(dados)
-    ind_removal = get_indices_para_rem(distances)
+    ind_removal = get_indices_para_rem(distances, pct)
     ind_manter = [i for i in range(len(dados)) if i not in ind_removal]
     new_array = np.array([dados[i] for i in range(len(dados)) if i not in ind_removal])
     ind_transform = dict()
     for i in range(len(new_array)):
-        ind_transform[i] = 1+ind_manter[i]
+        ind_transform[i] = ind_manter[i]
     return new_array, ind_transform
 
 
@@ -56,11 +60,15 @@ def plot_dual(distances, indexes_to_be_removed, title):
     fig.suptitle(title)
     ax = fig.add_subplot(121)
     ax.set_title("Antes da remocao")
+    ax.set_xlabel("Dado")
+    ax.set_ylabel("Distancia do ponto medio")
     ax.scatter(x=X1, y=Y1)
     X2 = [i for i in range(len(distances)) if i not in indexes_to_be_removed]
     Y2 = [distances[i] for i in range(len(distances)) if i not in indexes_to_be_removed]
     ax2 = fig.add_subplot(122)
     ax2.set_title("Apos remocao")
+    ax2.set_xlabel("Dado")
+    ax2.set_ylabel("Distancia do ponto medio")
     ax2.scatter(x=X2, y=Y2)
 
 
@@ -82,7 +90,6 @@ if __name__ == '__main__':
     dist_bin = get_distancias(bbc_xuchu_binario)
     rem_bin = get_indices_para_rem(dist_bin)
     trans = return_new_ndarray_indices(bbc_xuchu_binario)[1]
-    plot_dual(dist_bin, rem_bin, "Binario 3K")
+    plot_dual(dist_bin, rem_bin, "BBC Binario 3K")
     plt.show()
-    # print(trans.values())
-    # print([i+1 for i in rem_bin])
+    # print(trans[2196])

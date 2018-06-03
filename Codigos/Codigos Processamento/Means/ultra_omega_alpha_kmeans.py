@@ -15,7 +15,6 @@ Objeto basico que contem os parametros do procedimento de k-means a ser utilizad
       centroide, e guardado em self.centroids. A ordem em que os centroides estao guardados condizem com a
       ordem em que os clusters estao guardados.
     - Os dados resultantes do pre-processamento sao incluidos em self.dados atraves da funcao incluir()
-    - 
 '''
     def __init__(self, no_clusters = 2, inicializacao = 'padrao', distancia = "euclidiana", algoritmo = 'media',no_iteracoes = 500):
         self.no_clusters = no_clusters
@@ -220,6 +219,9 @@ Objeto basico que contem os parametros do procedimento de k-means a ser utilizad
                 #hsit['centroids']=self.centroids.copy()
                 #hsit['clusters']=self.clusters.copy()
                 #self.historia.append(hsit)
+                '''condicao de parada: Se as distancia total de cada dado a cada centroid for igual a distancia
+                   total da ultima ou penultima iteracao, parar o algoritmo.
+                '''
                 if(self.distancia_total==self.distancia_total_ant or self.distancia_total==self.distancia_total_ant_ant):
                     break
                 

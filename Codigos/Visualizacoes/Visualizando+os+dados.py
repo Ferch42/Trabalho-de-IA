@@ -3,7 +3,8 @@
 
 # <h1>Visualizando os arquivos</h1>
 
-# In[1]:
+# In[33]:
+
 
 import os,pickle
 from sklearn.manifold import TSNE
@@ -17,15 +18,18 @@ import numpy as np
 
 # In[2]:
 
-binaryVector3k = pickle.load(open('..\\..\\ObjetosPreProcessados\\binaryVector3k.aug','rb'))
+
+binaryVector3k = pickle.load(open('..\\ObjetosPreProcessados\\binaryVector3k.aug','rb'))
 
 
 # In[3]:
+
 
 binaryVector3k
 
 
 # In[4]:
+
 
 tsne=TSNE(n_components=3)
 transformedBinaryVector= tsne.fit_transform(binaryVector3k.todense())
@@ -33,10 +37,12 @@ transformedBinaryVector= tsne.fit_transform(binaryVector3k.todense())
 
 # In[5]:
 
+
 transformedBinaryVector
 
 
 # In[6]:
+
 
 xvalues=[vector[0] for vector in transformedBinaryVector]
 yvalues=[vector[1] for vector in transformedBinaryVector]
@@ -45,6 +51,7 @@ zvalues=[vector[2] for vector in transformedBinaryVector]
 
 
 # In[7]:
+
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
@@ -56,33 +63,39 @@ plt.show()
 
 # In[8]:
 
-TermFrequencyVector3k = pickle.load(open('..\\..\\ObjetosPreProcessados\\tfVector3k.aug','rb'))
+
+TermFrequencyVector3k = pickle.load(open('..\\ObjetosPreProcessados\\tfVector3k.aug','rb'))
 
 
 # In[9]:
 
+
 TermFrequencyVector3k
 
 
-# In[10]:
+# In[19]:
+
 
 tsne=TSNE(n_components=3)
 transformedTermFrequency= tsne.fit_transform(TermFrequencyVector3k.todense())
 
 
-# In[11]:
+# In[20]:
+
 
 transformedTermFrequency
 
 
-# In[12]:
+# In[22]:
+
 
 xvalues=[vector[0] for vector in transformedTermFrequency]
 yvalues=[vector[1] for vector in transformedTermFrequency]
 zvalues=[vector[2] for vector in transformedTermFrequency]
 
 
-# In[13]:
+# In[15]:
+
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
@@ -92,35 +105,41 @@ plt.show()
 
 # # Term Frequency Inverse Document Frequency #
 
-# In[14]:
-
-TFIDFVector3k = pickle.load(open('..\\..\\ObjetosPreProcessados\\tfidfVector3k.aug','rb'))
+# In[16]:
 
 
-# In[15]:
+TFIDFVector3k = pickle.load(open('..\\ObjetosPreProcessados\\tfidfVector3k.aug','rb'))
+
+
+# In[17]:
+
 
 TFIDFVector3k
 
 
-# In[16]:
+# In[18]:
+
 
 tsne=TSNE(n_components=3)
 transformedTFIDF= tsne.fit_transform(TFIDFVector3k.todense())
 
 
-# In[17]:
+# In[25]:
+
 
 transformedTFIDF
 
 
-# In[18]:
+# In[26]:
+
 
 xvalues=[vector[0] for vector in transformedTFIDF]
 yvalues=[vector[1] for vector in transformedTFIDF]
 zvalues=[vector[2] for vector in transformedTFIDF]
 
 
-# In[19]:
+# In[27]:
+
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')
@@ -130,30 +149,35 @@ plt.show()
 
 # # Word2Vec #
 
-# In[20]:
-
-Word2Vec = pickle.load(open('..\\..\\ObjetosPreProcessados\\Word2Vec.aug','rb'))
+# In[56]:
 
 
-# In[21]:
+Word2Vec = pickle.load(open('..\\ObjetosPreProcessados\\Word2Vec.aug','rb'))
+
+
+# In[57]:
+
 
 Word2Vec = np.array(Word2Vec)
 
 
-# In[28]:
+# In[69]:
+
 
 tsne=TSNE(n_components=3)
 transformedWord2Vec= tsne.fit_transform(Word2Vec)
 
 
-# In[29]:
+# In[70]:
+
 
 xvalues=[vector[0] for vector in transformedWord2Vec]
 yvalues=[vector[1] for vector in transformedWord2Vec]
 zvalues=[vector[2] for vector in transformedWord2Vec]
 
 
-# In[30]:
+# In[71]:
+
 
 fig = plt.figure()
 ax = plt.axes(projection='3d')

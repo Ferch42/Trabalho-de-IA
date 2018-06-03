@@ -13,32 +13,33 @@ class Kmeanz:
 	pass
 '''
 resultados = []
-p = pickle.load(open("../../../Objetos/ObjetosProcessadosSOM/som_real_bbc_extra.lai", "rb"))
+p = pickle.load(open("../../../Objetos/ObjetosProcessadosReutersMeansFinal/resualtado_final_reuters_normal.lai", "rb"))
 for result in p:
 	resultados.append(result)
-p = pickle.load(open("../../../Objetos/ObjetosProcessadosSOM/som_real_bbc.lai", "rb"))
-for result in p:
-	resultados.append(result)
-resultados = sorted(resultados, key = lambda tupla: tupla[3], reverse = True)
-n=20
-corpus = 'bbc'
-for i,resultado in enumerate(resultados):
-	kmeans = resultado[1]
-	lista_mais_frequentes = Wordcloud.PalavrasMaisFrequentesCluster.gerar_n_palavras_mais_frequentes_por_cluster(n, corpus, kmeans)
-	Wordcloud.save_plot(lista_mais_frequentes, str(i+1) + "ªmelhor_representacao_bbc")
-	Wordcloud.save_plots_por_cluster(lista_mais_frequentes, str(i+1) + "ªmelhor_representacao_bbc")
-'''
+resultados = sorted(resultados, key = lambda tupla: tupla[1], reverse = True)
 
-
-resultados = []
-p = pickle.load(open("../../../Objetos/ObjetosProcessadosSOMReuters/som_real_reuters.lai", "rb"))
-for result in p:
-	resultados.append(result)
-resultados = sorted(resultados, key = lambda tupla: tupla[3], reverse = True)
 n=20
 corpus = 'reuters'
 for i,resultado in enumerate(resultados):
-	kmeans = resultado[1]
+	kmeans = resultado[2]
+	lista_mais_frequentes = Wordcloud.PalavrasMaisFrequentesCluster.gerar_n_palavras_mais_frequentes_por_cluster(n, corpus, kmeans)
+	Wordcloud.save_plot(lista_mais_frequentes, str(i+1) + "ªmelhor_representacao_reuters")
+	Wordcloud.save_plots_por_cluster(lista_mais_frequentes, str(i+1) + "ªmelhor_representacao_reuters")
+'''
+
+#5+
+
+resultados = []
+p = pickle.load(open("../../../Objetos/ObjetosProcessadosReutersMeansFinal/resualtado_final_reuters_5+.lai", "rb"))
+for result in p:
+	resultados.append(result)
+resultados = sorted(resultados, key = lambda tupla: tupla[1], reverse = True)
+print(resultados)
+
+n=20
+corpus = 'reuters'
+for i,resultado in enumerate(resultados):
+	kmeans = resultado[2]
 	lista_mais_frequentes = Wordcloud.PalavrasMaisFrequentesCluster.gerar_n_palavras_mais_frequentes_por_cluster(n, corpus, kmeans)
 	Wordcloud.save_plot(lista_mais_frequentes, str(i+1) + "ªmelhor_representacao_reuters")
 	Wordcloud.save_plots_por_cluster(lista_mais_frequentes, str(i+1) + "ªmelhor_representacao_reuters")

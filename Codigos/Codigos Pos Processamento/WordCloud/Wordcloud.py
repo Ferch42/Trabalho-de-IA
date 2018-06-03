@@ -113,7 +113,7 @@ class PalavrasMaisFrequentesCluster:
   def __get_palavras_clusterizadas(corpus_clusterizado):
     
     stopWords = [x for x in ENGLISH_STOP_WORDS]
-    otherCommonWords = ['make','year','years','new','people','said','say','time','brown','good','told','000','says','took','way','think','going','just','don','did','use','best','didn']
+    otherCommonWords = ['make','year','years','new','people','said','say','time','brown','good','told','000','says','took','way','think','going','just','don','did','use','best','didn', 'mln', 'cts', 'net', 'dlrs', 'shr', 'blah', 'revs', 'qtr', 'oper', 'march', 'bank', 'company', 'corp', 'sales', 'dlr', 'billion', 'stg', 'loss', 'profit', 'revs', 'div', 'pct', 'record', 'prior', 'pay', 'qtly', 'dividend', '4th', 'note', 'sets', 'avg', 'shrs', 'includes', 'quarterly', 'share', 'shares', 'miles', 'mths', 'april', 'february', 'stock', 'prices', 'price', 'market', 'government', 'exchange', 'january', 'york', 'week', 'quarter', 'december', 'added', 'production', 'bbl', 'feb', 'official', 'international', 'deficit', 'raises', 'debit', 'trade', 'baker', 'rate', 'crude', 'tax', 'debt', 'debts', 'money', 'business', 'offer', 'foreign', 'contract', 'agreement', 'systems', 'board', '1st', '2nd', '3rd', 'commercial', 'dollar', 'dollars', 'excludes', 'extraordinary', 'securities', 'trading', 'economic', 'current', 'financial', 'issue', 'today', 'rose', 'expected', 'dec', 'jan', 'gain', 'declared', 'months', 'payable', 'available', 'income', 'operations', 'regular', 'traders', 'revenue', 'national', 'world', 'effective', 'wti', 'making', 'sale', 'results', 'periods', 'respectively', 'gain', 'month', 'common', 'credit', 'buy', 'public', 'initial', 'talks', 'total', 'bond', 'expects', 'sell', 'twa', 'averager', 'ended', 'forth', 'compared', 'period', 'sees', 'ago', 'fiscal', 'budget', 'end', 'department', 'day', 'group', 'cash', 'earnings', 'include', 'exclude', 'june', 'pre', 'rev', 'fall', 'raise', 'agreed', 'fourth', 'proceeds', 'american', 'output', 'president', 'qtlys', 'analysts', 'tonnes']
     for w in otherCommonWords:
       stopWords.append(w)
     palavras_clusterizadas = [[] for _ in range(len(corpus_clusterizado))]
@@ -155,11 +155,14 @@ class PalavrasMaisFrequentesCluster:
     lista_mais_frequentes = [[] for _ in range(len(lista_palavras_clusterizadas))]
     for n_cluster,cluster in enumerate(lista_palavras_clusterizadas):
       tuplas = PalavrasMaisFrequentesCluster.__get_tupla_frequencia_palavras(cluster)
+      print(tuplas)
       cont = 0
       for contador,tupla in enumerate(tuplas):
+
         if(contador == n):
           break
         lista_mais_frequentes[n_cluster].append(tupla[0])
+    
     return lista_mais_frequentes
 
   #método principal que recebe numero n e caminho path e devolve lista de listas das palavras ,ais frequentes por cluster

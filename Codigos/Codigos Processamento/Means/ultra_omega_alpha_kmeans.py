@@ -7,7 +7,16 @@ import ultra_omega_alpha_kmeans2
 from silhuetaDInamico import calcular_silhueta_um_grupo,calcularSilhueta,criarConjunto
 
 class ultra_omega_alpha_kmeans:
-
+'''
+Objeto basico que contem os parametros do procedimento de k-means a ser utilizado. 
+    - Cada cluster estara guardado em self.clusters, sendo que cada um e representado por 
+      uma lista de indices que apontam para o conjunto original dos dados.
+    - Cada centroide esta representado por uma lista de inteiros que representam as coordenadas do
+      centroide, e guardado em self.centroids. A ordem em que os centroides estao guardados condizem com a
+      ordem em que os clusters estao guardados.
+    - Os dados resultantes do pre-processamento sao incluidos em self.dados atraves da funcao incluir()
+    - 
+'''
     def __init__(self, no_clusters = 2, inicializacao = 'padrao', distancia = "euclidiana", algoritmo = 'media',no_iteracoes = 500):
         self.no_clusters = no_clusters
         self.inicializacao = inicializacao
@@ -38,6 +47,10 @@ class ultra_omega_alpha_kmeans:
         self.dados = dados
 
     def inicializar(self):
+        '''
+        Baseado no algoritmo de inicializacao especificado pelo usuario em string, invoca um dos
+        3 diferentes metodos.
+        '''
         metodo = self.inicializacao
 
         if metodo == "padrao":
@@ -54,10 +67,10 @@ class ultra_omega_alpha_kmeans:
 
         for _ in range(self.no_clusters):       
             #self.dados.shape[0] == numero de linhas da matriz de dados.
-            # random.randrange escolhe um numero aleatoria do range especificado.
+            # random.randrange escolhe um numero aleatorio do range especificado.
             indice_aleatorio = random.randrange(self.dados.shape[0])
 
-            while indice_aleatorio in indices_prototipos:# verificando se haverá indices iguais em 
+            while indice_aleatorio in indices_prototipos:# verificando se ha indices ja escolhidos anteriormente 
                 indice_aleatorio = random.randrange(self.dados.shape[0])
 
             indices_prototipos.append(indice_aleatorio)
@@ -215,7 +228,7 @@ class ultra_omega_alpha_kmeans:
                 self.calcula_distancia(distancia_selecionada)
                 self.__recalcular_centroid_media()
                 
-        elif alg == "mediana":
+        elif alg == "mediana": # Nao foi utilizado
             for _ in progressbar.progressbar(range(self.no_iteracoes)):
                 
                 #hsit={}

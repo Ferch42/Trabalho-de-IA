@@ -1,0 +1,11 @@
+Todos os objetos na suas formas originais sao arquivos binarios. Para abri-los e visualiza-los,
+e necessario utilizar a funcao load() da biblioteca pickle (nativa de python). Alternativamente, 
+podera ser utilizado o script converterCSV.py disponibilizado nesta pasta na seguinte forma:
+
+python converterCSV.py "enderecodoarquivo"
+
+Por exemplo:
+
+python converterCSV.py "C:\Users\...\Matrizes de Dados\ObjetosPreProcessadosBBC\Binario\3K\Lemma\binaryVector3kTokenizerLemmatizer.aug"
+
+Obs.: O arquivo .csv novo sera salvo no mesmo endereco especificado no comando. Nao esqueca das aspas.

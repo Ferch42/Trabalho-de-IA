@@ -7,15 +7,17 @@ import ultra_omega_alpha_kmeans2
 from silhuetaDInamico import calcular_silhueta_um_grupo,calcularSilhueta,criarConjunto
 
 class ultra_omega_alpha_kmeans:
-'''
-Objeto basico que contem os parametros do procedimento de k-means a ser utilizado. 
+    '''
+    Objeto basico que contem os parametros do procedimento de k-means a ser utilizado.
     - Cada cluster estara guardado em self.clusters, sendo que cada um e representado por 
       uma lista de indices que apontam para o conjunto original dos dados.
     - Cada centroide esta representado por uma lista de inteiros que representam as coordenadas do
       centroide, e guardado em self.centroids. A ordem em que os centroides estao guardados condizem com a
       ordem em que os clusters estao guardados.
     - Os dados resultantes do pre-processamento sao incluidos em self.dados atraves da funcao incluir()
-'''
+    - Depende do arquivo ultra_omega_alpha_kmeans2.py para a implementacao do x-means, pois precisa de
+      uma instancia de si mesma.
+    '''
     def __init__(self, no_clusters = 2, inicializacao = 'padrao', distancia = "euclidiana", algoritmo = 'media',no_iteracoes = 500):
         self.no_clusters = no_clusters
         self.inicializacao = inicializacao
